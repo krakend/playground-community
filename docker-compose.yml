@@ -5,7 +5,7 @@ services:
     volumes:
       - ./data:/lwan/wwwroot
     ports:
-      - "8081:8080"
+      - "8000:8080"
   krakend:
     image: devopsfaith/krakend
     volumes:

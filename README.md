@@ -17,7 +17,7 @@ Start
 Use
 ===
 - The KrakenD API runs in the port 8080
-- The static API runs in the port 8081
+- The static API runs in the port 8000
 
 E.g: [http://localhost:8080/splash]()
 
