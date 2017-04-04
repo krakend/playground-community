@@ -1,0 +1,8 @@
+FROM golang:1.8
+
+RUN mkdir -p /etc/krakend
+
+RUN go get -v github.com/devopsfaith/krakend/examples/mux
+RUN go install github.com/devopsfaith/krakend/examples/mux
+
+CMD [ "mux", "-d", "-p", "8080", "-c", "/etc/krakend/krakend.json" ]

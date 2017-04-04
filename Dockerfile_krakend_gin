@@ -1,0 +1,8 @@
+FROM golang:1.8
+
+RUN mkdir -p /etc/krakend
+
+RUN go get -v github.com/devopsfaith/krakend/examples/gin
+RUN go install github.com/devopsfaith/krakend/examples/gin
+
+CMD [ "gin", "-d", "-p", "8080", "-c", "/etc/krakend/krakend.json" ]

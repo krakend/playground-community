@@ -6,11 +6,51 @@ services:
       - ./data:/lwan/wwwroot
     ports:
       - "8000:8080"
-  krakend:
+  krakend_free:
     image: devopsfaith/krakend
     volumes:
       - ./krakend:/etc/krakend
     ports:
       - "8080:8080"
+    links:
+      - fake_api
+  krakend_gin:
+    build:
+      context: ./
+      dockerfile: Dockerfile_krakend_gin
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8081:8080"
+    links:
+      - fake_api
+  krakend_mux:
+    build:
+      context: ./
+      dockerfile: Dockerfile_krakend_mux
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8082:8080"
+    links:
+      - fake_api
+  krakend_gorilla:
+    build:
+      context: ./
+      dockerfile: Dockerfile_krakend_gorilla
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8083:8080"
+    links:
+      - fake_api
+  krakend_negroni:
+    build:
+      context: ./
+      dockerfile: Dockerfile_krakend_negroni
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8084:8080"
     links:
       - fake_api
