@@ -16,7 +16,11 @@ drag this file anytime to the [KrakenD designer](http://www.krakend.io/designer/
 
 ## Use
 
-- The KrakenD API runs in the port 8080
+- The KrakenD Free API runs in the port 8080
+- The KrakenD Gin API runs in the port 8081
+- The KrakenD Mux API runs in the port 8082
+- The KrakenD Gorilla API runs in the port 8083
+- The KrakenD Negroni API runs in the port 8084
 - The static API runs in the port 8000
 
 E.g: [http://localhost:8080/splash]()
