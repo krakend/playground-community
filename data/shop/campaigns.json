@@ -1,0 +1,27 @@
+{
+    "year": 2017,
+	"campaigns": [
+    	{
+    		"id_campaign": 1,
+			"name": "Saint Calentine",
+			"start_date": "2017/02/10",
+			"end_date": "2017/02/15",
+			"discounts": [
+				{"id_product": 1, "discount": 0.15},
+				{"id_product": 2, "discount": 0.50},
+				{"id_product": 3, "discount": 0.25}
+			]
+    	},
+    	{
+    		"id_campaign": 2,
+			"name": "Summer break",
+			"start_date": "2017/06/01",
+			"end_date": "2017/09/15",
+			"discounts": [
+					{"id_product": 1, "discount": 0.2},
+					{"id_product": 2, "discount": 0.1},
+					{"id_product": 3, "discount": 0.1}
+				]
+    	}
+    ]
+}

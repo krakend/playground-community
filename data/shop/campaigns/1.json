@@ -1,0 +1,11 @@
+{
+	"id_campaign": 1,
+	"name": "Saint Calentine",
+	"start_date": "2017/02/10",
+	"end_date": "2017/02/15",
+	"discounts": [
+		{"id_product": 1, "discount": 0.15},
+		{"id_product": 2, "discount": 0.50},
+		{"id_product": 3, "discount": 0.25}
+	]
+}

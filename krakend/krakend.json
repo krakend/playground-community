@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "default_max_rate": 0,
+  "client_max_rate": 0,
+  "throttling_header": "",
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "host": [
+    "http://fake_api:8080"
+  ],
+  "endpoints": [
+    {
+      "endpoint": "/splash",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "client_max_rate": 0,
+      "backend": [
+        {
+          "url_pattern": "/shop/campaigns.json",
+          "encoding": "json",
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "group": "campaigns"
+        },
+        {
+          "url_pattern": "/shop/products.json",
+          "encoding": "json",
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "group": "products"
+        }
+      ]
+    }
+  ]
+}

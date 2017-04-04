@@ -1,0 +1,16 @@
+version: "2"
+services:
+  fake_api:
+    image: jaxgeller/lwan
+    volumes:
+      - ./data:/lwan/wwwroot
+    ports:
+      - "8081:8080"
+  krakend:
+    image: devopsfaith/krakend
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8080:8080"
+    links:
+      - fake_api
