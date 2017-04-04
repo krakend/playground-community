@@ -40,25 +40,25 @@ This demo uses the [KrakenD free version](https://hub.docker.com/r/devopsfaith/k
 
 This demo uses the [Gin example](https://github.com/devopsfaith/krakend/blob/master/examples/gin/main.go) from the KrakenD OS
 
-	$ curl -i http://${DOCKER_IP}:8081/splash
+	$ curl -i -H'Host: ssl.example.com' http://${DOCKER_IP}:8081/splash
 
 ### OS KrakenD Mux
 
 This demo uses the [Mux example](https://github.com/devopsfaith/krakend/blob/master/examples/mux/main.go) from the KrakenD OS
 
-	$ curl -i http://${DOCKER_IP}:8082/splash
+	$ curl -i -H'Host: ssl.example.com' http://${DOCKER_IP}:8082/splash
 
 ### OS KrakenD Gorilla
 
 This demo uses the [Gorilla example](https://github.com/devopsfaith/krakend/blob/master/examples/gorilla/main.go) from the KrakenD OS
 
-	$ curl -i http://${DOCKER_IP}:8083/splash
+	$ curl -i -H'Host: ssl.example.com' http://${DOCKER_IP}:8083/splash
 
 ### OS KrakenD Negroni
 
 This demo uses the [Negroni example](https://github.com/devopsfaith/krakend/blob/master/examples/negroni/main.go) from the KrakenD OS
 
-	$ curl -i http://${DOCKER_IP}:8084/splash
+	$ curl -i -H'Host: ssl.example.com' http://${DOCKER_IP}:8084/splash
 
 ## Add your demos!
 
