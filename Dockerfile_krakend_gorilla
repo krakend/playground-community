@@ -1,0 +1,8 @@
+FROM golang:1.8
+
+RUN mkdir -p /etc/krakend
+
+RUN go get -v github.com/devopsfaith/krakend/examples/gorilla
+RUN go install github.com/devopsfaith/krakend/examples/gorilla
+
+CMD [ "gorilla", "-d", "-p", "8080", "-c", "/etc/krakend/krakend.json" ]
