@@ -1,8 +1,9 @@
+![KrakenD Playground logo](logo.png)
+
 KrakenD Playground
 ====
 
-The KrakenD Playground is a demo project that sets a KrakenD API using several
-endpoints from a static API.
+The KrakenD Playground is a running environment with different versions of [KrakenD](http://wwww.krakend.io), commercial and [Open Source](https://github.com/devopsfaith/krakend), feeding from a demonstration API that you can change at your will.
 
 You can expand this static API just by storing more XML or JSON files in the `data`
 folder.
@@ -10,28 +11,44 @@ folder.
 The KrakenD configuration is stored under `krakend/krakend.json` and you can
 drag this file anytime to the [KrakenD designer](http://www.krakend.io/designer/) and resume the edition from there.
 
-## Start
+## Start!
+In order to start all the services just run:
 
     docker-compose up
 
-## Use
+## Play!
 
-- The KrakenD Free API runs in the port 8080
-- The KrakenD Gin API runs in the port 8081
-- The KrakenD Mux API runs in the port 8082
-- The KrakenD Gorilla API runs in the port 8083
-- The KrakenD Negroni API runs in the port 8084
-- The static API runs in the port 8000
+Fire up your browser, curl, postman, httpie or anything else you like to interact with any of the following ports.
 
-E.g: [http://localhost:8080/splash]()
+Different versions of KrakenD:
 
-## Edit endpoints
+- Free version (based on commercial enterprise) runs in the port [8080](http://localhost:8080)
+- Open source using **Gin** runs in the port [8081](http://localhost:8081)
+- Open source using **Mux** runs in the port [8082](http://localhost:8082)
+- Open source using **Gorilla** runs in the port [8083](http://localhost:8083)
+- Open source using **Negroni** runs in the port [8084](http://localhost:8084)
 
-The KrakenD configuration is stored under `krakend/krakend.json` and you can
-drag this file anytime to the [KrakenD designer](http://www.krakend.io/designer/)
+The backend data ([LWAN](https://github.com/lpereira/lwan) server):
 
-The backend API endpoints are just static files in the `data` folder. Add or remove there.
+- All datasource endpoints under port [8000](http://localhost:8000)
 
+![KrakenD Playground logo](playground.jpg)
+
+If you use `docker-machine` you will need to access the services using something like `http://192.168.99.100:PORT` instead of `http://localhost:PORT`.
+
+
+## Editing the endpoints
+Initially the different KrakenD gateways present the following endpoint:
+
+	http://localhost:8080/splash
+	http://localhost:8081/splash
+	http://localhost:8082/splash
+	http://localhost:8083/splash
+	http://localhost:8084/splash	
+
+To add more, edit the file `krakend/krakend.json`, the easiest way is to **drag this file anytime to the [KrakenD designer](http://www.krakend.io/designer/)** and download the resulting file.
+
+To change the data in the static server (simulating your backend) edit, add or delete files in the **`data`** folder. 
 ## Available demos
 
 ### KrakenD Free
@@ -64,6 +81,8 @@ This demo uses the [Negroni example](https://github.com/devopsfaith/krakend/blob
 
 	$ curl -i -H'Host: ssl.example.com' http://${DOCKER_IP}:8084/splash
 
-## Add your demos!
+## Add your demo endpoints and middleware integrations!
 
-Please add your own examples by doing a pull request!
+Do you want to add a new router? Just some other endpoints that might help others? Please sends a pull request!
+
+Thanks!
