@@ -54,3 +54,14 @@ services:
       - "8084:8080"
     links:
       - fake_api
+  krakend_jwt:
+    build:
+      context: ./
+      dockerfile: Dockerfile_krakend_jwt
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8085:8080"
+      - "8090:8090"
+    links:
+      - fake_api
