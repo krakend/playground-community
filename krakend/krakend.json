@@ -5,31 +5,74 @@
   "throttling_header": "",
   "timeout": "3000ms",
   "cache_ttl": "300s",
-  "host": [
-    "http://fake_api:8080"
-  ],
+  "host": [ "http://fake_api:8080" ],
   "endpoints": [
+    {
+      "endpoint": "/nick/{nick}",
+      "backend": [
+        {
+          "host": [ "https://api.github.com" ],
+          "url_pattern": "/users/{nick}",
+          "whitelist": [
+            "avatar_url",
+            "name",
+            "company",
+            "blog",
+            "location",
+            "mail",
+            "hireable",
+            "followers",
+            "public_repos",
+            "public_gists"
+          ],
+          "mapping": { "blog": "website" },
+          "group": "github"
+        },
+        {
+          "host": [ "https://api.bitbucket.org" ],
+          "url_pattern": "/2.0/users/{nick}",
+          "whitelist": [
+            "links.avatar",
+            "display_name",
+            "website",
+            "location"
+          ],
+          "mapping": { "display_name": "name" },
+          "group": "bitbucket"
+        }
+      ]
+    },
     {
       "endpoint": "/splash",
       "method": "GET",
       "concurrent_calls": 1,
-      "client_max_rate": 0,
       "backend": [
         {
           "url_pattern": "/shop/campaigns.json",
-          "encoding": "json",
-          "host": [
-            "http://fake_api:8080"
-          ],
-          "group": "campaigns"
+          "whitelist": [ "campaigns" ]
         },
         {
           "url_pattern": "/shop/products.json",
-          "encoding": "json",
-          "host": [
-            "http://fake_api:8080"
-          ],
-          "group": "products"
+          "whitelist": [ "products" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/showrss/{id}",
+      "backend": [
+        {
+          "host": [ "http://showrss.info/" ],
+          "url_pattern": "/user/schedule/{id}.rss",
+          "encoding": "rss",
+          "group": "schedule",
+          "whitelist": ["items", "title"]
+        },
+        {
+          "host": [ "http://showrss.info/" ],
+          "url_pattern": "/user/{id}.rss",
+          "encoding": "rss",
+          "group": "available",
+          "whitelist": ["items", "title"]
         }
       ]
     }

@@ -1,0 +1,8 @@
+FROM golang:1.8
+
+RUN mkdir -p /etc/krakend
+
+RUN go get -v github.com/devopsfaith/krakend/examples/jwt
+RUN go install github.com/devopsfaith/krakend/examples/jwt
+
+CMD [ "jwt", "-d", "-p", "8080", "-c", "/etc/krakend/krakend.json", "-cors-origins", "http://127.0.0.1:8080,http://example.com,http://ssl.example.com,https://127.0.0.1:8080,https://example.com,https://ssl.example.com" ]
