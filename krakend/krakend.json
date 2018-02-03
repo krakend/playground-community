@@ -1,11 +1,16 @@
 {
-  "version": 1,
-  "default_max_rate": 0,
-  "client_max_rate": 0,
-  "throttling_header": "",
+  "version": 2,
   "timeout": "3000ms",
   "cache_ttl": "300s",
   "host": [ "http://fake_api:8080" ],
+  "extra_config": {
+    "github_com/devopsfaith/krakend-gologging": {
+      "level":  "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    }
+  },
   "endpoints": [
     {
       "endpoint": "/nick/{nick}",
@@ -44,8 +49,6 @@
     },
     {
       "endpoint": "/splash",
-      "method": "GET",
-      "concurrent_calls": 1,
       "backend": [
         {
           "url_pattern": "/shop/campaigns.json",

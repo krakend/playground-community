@@ -52,9 +52,9 @@ To change the data in the static server (simulating your backend) edit, add or d
 
 ## Available demos
 
-### KrakenD Free
+### KrakenD CE
 
-This demo uses the [KrakenD free version](https://hub.docker.com/r/devopsfaith/krakend/), and is limited to 1000rps and 2 backend endpoints per KrakenD endpoint (if you add more they are ignored)
+This demo uses the official docker image for the [KrakenD](https://hub.docker.com/r/devopsfaith/krakend/) gateway
 
 	$ curl -i http://${DOCKER_IP}:8080/splash
 

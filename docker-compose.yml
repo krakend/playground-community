@@ -6,7 +6,7 @@ services:
       - ./data:/lwan/wwwroot
     ports:
       - "8000:8080"
-  krakend_free:
+  krakend_ce:
     image: devopsfaith/krakend
     volumes:
       - ./krakend:/etc/krakend
