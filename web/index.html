@@ -65,22 +65,23 @@
       </div>
 
       <!-- ping view -->
-      <div id="ping-view">
-        <h1>Make a Call to the Server</h1>
+      <div id="ping-view" class="panel panel-default profile-area">
+        <div class="panel-heading"><h3>Make a Call to the Server</h3></div>
+        <div class="panel-body">
+          <div>
+            <p id="call-private-message">
+              Log in to call a private (secured) server endpoint.
+            </p>
 
-        <p id="call-private-message">
-          Log in to call a private (secured) server endpoint.
-        </p>
+            <button id="btn-ping-public" class="btn btn-primary">
+                Call Public
+            </button>
 
-        <button id="btn-ping-public" class="btn btn-primary">
-            Call Public
-        </button>
-
-        <button id="btn-ping-private" class="btn btn-primary">
-            Call Private
-        </button>
-
-        <div>
+            <button id="btn-ping-private" class="btn btn-primary">
+                Call Private
+            </button>
+          </div>
+          <h4>Response</h4>
           <pre id="ping-message"></pre>
         </div>
       </div>
