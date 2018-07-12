@@ -78,6 +78,7 @@ window.addEventListener('load', function() {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    scheduleRenewal();
   }
 
   function logout() {
@@ -168,7 +169,34 @@ window.addEventListener('load', function() {
     });
   }
 
-  handleAuthentication();
+  function renewToken() {
+    webAuth.checkSession({},
+      function(err, result) {
+        if (err) {
+          alert(
+            'Could not get a new token. ' +
+              err.description
+          );
+        } else {
+          setSession(result);
+          console.log('Successfully renewed auth!');
+        }
+      }
+    );
+  }
+
+  function scheduleRenewal() {
+    var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    var delay = expiresAt - Date.now();
+    if (delay > 0) {
+      console.log("Token will expire in "+delay+" ms.");
+      tokenRenewalTimeout = setTimeout(function() {
+        renewToken();
+      }, delay);
+    } else {
+      console.log("Expired tokens can't be renewed.");
+    }
+  }
 
   function callAPI(endpoint, secured) {
     var url = apiUrl + endpoint;
@@ -191,5 +219,7 @@ window.addEventListener('load', function() {
     xhr.send();
   }
 
+  handleAuthentication();
+  scheduleRenewal();
   displayButtons();
 });
