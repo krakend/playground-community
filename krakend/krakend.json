@@ -30,6 +30,20 @@
   },
   "endpoints": [
     {
+      "endpoint": "/fail",
+      "backend": [
+        {
+          "url_pattern": "/user/1",
+          "group": "user"
+        },
+        {
+          "host": [ "https://ddddddddddddd.com" ],
+          "url_pattern": "/",
+          "group": "none"
+        }
+      ]
+    },
+    {
       "endpoint": "/public",
       "backend": [
         {
@@ -65,33 +79,53 @@
       ]
     },
     {
-      "endpoint": "/private",
+      "endpoint": "/private/auth0",
       "backend": [
         {
-          "host": [ "https://api.github.com" ],
-          "url_pattern": "/users/kpacha",
-          "whitelist": [
-            "avatar_url",
-            "name",
-            "company",
-            "blog",
-            "location",
-            "mail",
-            "hireable",
-            "followers",
-            "public_repos",
-            "public_gists"
-          ],
-          "mapping": { "blog": "website" }
+          "url_pattern": "/user/1.json"
         }
       ],
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
           "alg": "RS256",
-          "aud": "http://api.example.com",
+          "audience": ["http://api.example.com"],
           "roles_key": "http://api.example.com/custom/roles",
           "roles": ["user", "admin"],
           "jwk-url": "https://albert-test.auth0.com/.well-known/jwks.json"
+        }
+      }
+    },
+    {
+      "endpoint": "/private/custom",
+      "backend": [
+        {
+          "url_pattern": "/user/1.json"
+        }
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "HS256",
+          "audience": ["http://api.example.com"],
+          "roles_key": "roles",
+          "issuer": "https://krakend.io",
+          "roles": ["role_a", "role_c"],
+          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
+        }
+      }
+    },
+    {
+      "endpoint": "/token",
+      "backend": [
+        {
+          "url_pattern": "/token.json"
+        }
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/signer": {
+          "alg": "HS256",
+          "kid": "sim2",
+          "keys-to-sign": ["access_token", "refresh_token"],
+          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
         }
       }
     }

@@ -41,7 +41,7 @@ window.addEventListener('load', function() {
   });
 
   pingPrivate.addEventListener('click', function() {
-    callAPI('/private', true);
+    callAPI('/private/auth0', true);
   });
 
   loginBtn.addEventListener('click', login);
