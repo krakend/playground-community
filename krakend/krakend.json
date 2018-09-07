@@ -30,14 +30,27 @@
   },
   "endpoints": [
     {
+      "endpoint": "/splash",
+      "backend": [
+        {
+          "url_pattern": "/shop/campaigns.json",
+          "whitelist": [ "campaigns" ]
+        },
+        {
+          "url_pattern": "/shop/products.json",
+          "whitelist": [ "products" ]
+        }
+      ]
+    },
+    {
       "endpoint": "/fail",
       "backend": [
         {
-          "url_pattern": "/user/1",
+          "url_pattern": "/user/1.json",
           "group": "user"
         },
         {
-          "host": [ "https://ddddddddddddd.com" ],
+          "host": [ "http://fake_url_that_should_not_resolve.tld" ],
           "url_pattern": "/",
           "group": "none"
         }

@@ -11,7 +11,7 @@ The KrakenD configuration is stored under `krakend/krakend.json` and you can dra
 
 ## Start!
 
-In order to start all the services just run:
+In order to start all the services, fill the `web/auth0-variables.js` and customize the `extra_config` parts of the `/private/auth0` endpoint and run:
 
     docker-compose up
 
