@@ -25,6 +25,8 @@ Fire up your browser, curl, postman, httpie or anything else you like to interac
 
 - All local datasource endpoints under port [8000](http://localhost:8000)
 
+- The Jaeger UI runs at port [16686](http://localhost:16686)
+
 If you use `docker-machine` you will need to access the services using something like `http://192.168.99.100:PORT` instead of `http://localhost:PORT`.
 
 ## Editing the endpoints
