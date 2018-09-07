@@ -9,15 +9,59 @@
       "prefix": "[KRAKEND]",
       "syslog": false,
       "stdout": true
+    },
+    "github_com/devopsfaith/krakend-opencensus": {
+      "sample_rate": 100,
+      "reporting_period": 1,
+      "exporters": {
+        "jaeger": {
+          "endpoint": "http://jaeger:14268",
+          "serviceName":"krakend"
+        }
+      }
+    },
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_origins": [ "http://192.168.99.100:3000" ],
+      "allow_methods": [ "POST", "GET" ],
+      "allow_headers": ["Origin","Authorization","Content-Type"],
+      "expose_headers": ["Content-Length"],
+      "max_age": "12h"
     }
   },
   "endpoints": [
     {
-      "endpoint": "/nick/{nick}",
+      "endpoint": "/splash",
+      "backend": [
+        {
+          "url_pattern": "/shop/campaigns.json",
+          "whitelist": [ "campaigns" ]
+        },
+        {
+          "url_pattern": "/shop/products.json",
+          "whitelist": [ "products" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/fail",
+      "backend": [
+        {
+          "url_pattern": "/user/1.json",
+          "group": "user"
+        },
+        {
+          "host": [ "http://fake_url_that_should_not_resolve.tld" ],
+          "url_pattern": "/",
+          "group": "none"
+        }
+      ]
+    },
+    {
+      "endpoint": "/public",
       "backend": [
         {
           "host": [ "https://api.github.com" ],
-          "url_pattern": "/users/{nick}",
+          "url_pattern": "/users/kpacha",
           "whitelist": [
             "avatar_url",
             "name",
@@ -35,7 +79,7 @@
         },
         {
           "host": [ "https://api.bitbucket.org" ],
-          "url_pattern": "/2.0/users/{nick}",
+          "url_pattern": "/2.0/users/kpacha",
           "whitelist": [
             "links.avatar",
             "display_name",
@@ -48,36 +92,55 @@
       ]
     },
     {
-      "endpoint": "/splash",
+      "endpoint": "/private/auth0",
       "backend": [
         {
-          "url_pattern": "/shop/campaigns.json",
-          "whitelist": [ "campaigns" ]
-        },
-        {
-          "url_pattern": "/shop/products.json",
-          "whitelist": [ "products" ]
+          "url_pattern": "/user/1.json"
         }
-      ]
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "RS256",
+          "audience": ["http://api.example.com"],
+          "roles_key": "http://api.example.com/custom/roles",
+          "roles": ["user", "admin"],
+          "jwk-url": "https://albert-test.auth0.com/.well-known/jwks.json"
+        }
+      }
     },
     {
-      "endpoint": "/showrss/{id}",
+      "endpoint": "/private/custom",
       "backend": [
         {
-          "host": [ "http://showrss.info/" ],
-          "url_pattern": "/user/schedule/{id}.rss",
-          "encoding": "rss",
-          "group": "schedule",
-          "whitelist": ["items", "title"]
-        },
-        {
-          "host": [ "http://showrss.info/" ],
-          "url_pattern": "/user/{id}.rss",
-          "encoding": "rss",
-          "group": "available",
-          "whitelist": ["items", "title"]
+          "url_pattern": "/user/1.json"
         }
-      ]
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "HS256",
+          "audience": ["http://api.example.com"],
+          "roles_key": "roles",
+          "issuer": "https://krakend.io",
+          "roles": ["role_a", "role_c"],
+          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
+        }
+      }
+    },
+    {
+      "endpoint": "/token",
+      "backend": [
+        {
+          "url_pattern": "/token.json"
+        }
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/signer": {
+          "alg": "HS256",
+          "kid": "sim2",
+          "keys-to-sign": ["access_token", "refresh_token"],
+          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
+        }
+      }
     }
   ]
 }
