@@ -122,7 +122,8 @@
           "roles_key": "roles",
           "issuer": "https://krakend.io",
           "roles": ["role_a", "role_c"],
-          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
+          "jwk-url": "http://fake_api:8080/jwk/symmetric.json",
+          "disable_jwk_security": true
         }
       }
     },
