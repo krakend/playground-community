@@ -138,7 +138,8 @@
           "alg": "HS256",
           "kid": "sim2",
           "keys-to-sign": ["access_token", "refresh_token"],
-          "jwk-url": "http://fake_api:8080/jwks/symmetric.json"
+          "jwk-url": "http://fake_api:8080/jwk/symmetric.json",
+          "disable_jwk_security": true
         }
       }
     }
