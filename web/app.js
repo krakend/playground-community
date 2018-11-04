@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
   loadingSpinner.style.display = 'none';
 
   var userProfile;
-  var apiUrl = 'http://192.168.99.100:8080';
+  var apiUrl = document.location.protocol + '//' + document.location.hostname + ':8080';
 
   var webAuth = new auth0.WebAuth({
     domain: AUTH0_DOMAIN,
