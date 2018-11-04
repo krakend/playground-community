@@ -56,7 +56,7 @@ Just:
 ## Play!
 Fire up your browser, curl, postman, httpie or anything else you like to interact with any of the published services.
 
-The web is at [http://localhost:3000](http://localhost:3000).
+If you want to try the JWT integration, the web is at [http://localhost:3000](http://localhost:3000).
 
 ## Editing the endpoints
 To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD designer](http://www.krakend.io/designer/)** and download the edited file. To reflect the changes restart docker-compose.
