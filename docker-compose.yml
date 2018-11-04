@@ -16,7 +16,7 @@ services:
     ports:
       - "3000:3000"
   krakend_ce:
-    image: devopsfaith/krakend:0.6.0
+    image: devopsfaith/krakend:0.6.1
     volumes:
       - ./krakend:/etc/krakend
     ports:
