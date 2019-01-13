@@ -4,7 +4,9 @@
   "cache_ttl": "300s",
   "host": [ "http://fake_api:8080" ],
   "extra_config": {
-    "github_com/devopsfaith/krakend-metrics": {},
+    "github_com/devopsfaith/krakend-metrics": {
+      "listen_address":":8090"
+    },
     "github_com/devopsfaith/krakend-gologging": {
       "level":  "DEBUG",
       "prefix": "[KRAKEND]",
