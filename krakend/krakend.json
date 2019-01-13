@@ -4,6 +4,7 @@
   "cache_ttl": "300s",
   "host": [ "http://fake_api:8080" ],
   "extra_config": {
+    "github_com/devopsfaith/krakend-metrics": {},
     "github_com/devopsfaith/krakend-gologging": {
       "level":  "DEBUG",
       "prefix": "[KRAKEND]",
@@ -21,7 +22,7 @@
       }
     },
     "github_com/devopsfaith/krakend-cors": {
-      "allow_origins": [ "http://localhost:3000", "http://192.168.99.100:3000" ],
+      "allow_origins": [ "http://localhost:8080", "http://localhost:3000", "http://192.168.99.100:3000" ],
       "allow_methods": [ "POST", "GET" ],
       "allow_headers": ["Origin","Authorization","Content-Type"],
       "expose_headers": ["Content-Length"],

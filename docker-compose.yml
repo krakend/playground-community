@@ -21,6 +21,7 @@ services:
       - ./krakend:/etc/krakend
     ports:
       - "8080:8080"
+      - "8090:8090"
     depends_on:
       - fake_api
       - jaeger
