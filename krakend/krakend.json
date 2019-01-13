@@ -39,9 +39,20 @@
         },
         {
           "url_pattern": "/shop/products.json",
-          "whitelist": [ "products" ]
+          "whitelist": [ "products" ],
+          "extra_config": {
+              "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+                  "maxRate": 1,
+                  "capacity": 1
+              }
+          }
         }
-      ]
+      ],
+      "extra_config": {
+          "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+              "maxRate": 2
+          }
+      }
     },
     {
       "endpoint": "/fail",
