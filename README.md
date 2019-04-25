@@ -25,10 +25,16 @@ You can add or remove data any time by adding XML, JSON or RSS files in the `dat
 
 Runs on [http://localhost:8000](http://localhost:8000)
 
+### The designer
+An instance of Krakendesigner (the GUI for manipulating the `krakend/krakend.json` file.
+
+You can drag the file `krakend/krakend.json` anytime in the dashboard and resume the edition from there.
+
+Runs on [http://localhost:8787](http://localhost:8787)
+
 ### The gateway!
 An instance of KrakenD with several endpoints. Its configuration is in the folder `krakend/`.
 
-You can drag the file `krakend/krakend.json` anytime to the [KrakenD designer](https://www.krakend.io/designer/) and resume the edition from there.
 
 Runs on [http://localhost:8080](http://localhost:8080)
 
