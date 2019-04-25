@@ -15,6 +15,10 @@ services:
       context: ./web
     ports:
       - "3000:3000"
+  kraken_designer:
+    image: devopsfaith/krakendesigner:latest
+    ports:
+      - 8787:80
   krakend_ce:
     image: devopsfaith/krakend:0.9.0
     volumes:
