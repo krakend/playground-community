@@ -45,7 +45,7 @@ A Jaeger dashboard shows the traces of the activity you generate. Runs on [http:
 A simple implementation of a JWT rovoker using the KrakenD remote bloomfilter client.
 
 
-Runs on [http://localhost:8080](http://localhost:9000)
+Runs on [http://localhost:9000](http://localhost:9000)
 
 ## Start the service
 
