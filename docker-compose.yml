@@ -24,8 +24,16 @@ services:
     volumes:
       - ./krakend:/etc/krakend
     ports:
+      - "1234:1234"
       - "8080:8080"
       - "8090:8090"
     depends_on:
       - fake_api
       - jaeger
+  jwt_revoke:
+    build:
+      context: ./jwt-revoker
+    ports:
+      - "9000:8080"
+    depends_on:
+      - krakend_ce

@@ -29,6 +29,14 @@
       "allow_headers": ["Origin","Authorization","Content-Type"],
       "expose_headers": ["Content-Length"],
       "max_age": "12h"
+    },
+    "github_com/devopsfaith/bloomfilter": {
+      "N": 10000000,
+      "P": 0.0000001,
+      "HashName": "optimal",
+      "TTL": 1500,
+      "port": 1234,
+      "TokenKeys": ["jti"]
     }
   },
   "endpoints": [

@@ -41,6 +41,11 @@ Runs on [http://localhost:8080](http://localhost:8080)
 ### Metrics
 A Jaeger dashboard shows the traces of the activity you generate. Runs on [http://localhost:16686](http://localhost:16686)
 
+### The JWT revoker
+A simple implementation of a JWT rovoker using the KrakenD remote bloomfilter client.
+
+
+Runs on [http://localhost:8080](http://localhost:9000)
 
 ## Start the service
 
@@ -66,6 +71,7 @@ Fire up your browser, curl, postman, httpie or anything else you like to interac
 - Backend: [http://localhost:8000](http://localhost:8000)
 - API Gateway: [http://localhost:8080](http://localhost:8080)
 - Jaeger tracing: [http://localhost:16686](http://localhost:16686)
+- JWT revoker: [http://localhost:9000](http://localhost:9000)
 
 ## Editing the API Gateway endpoints
 To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD designer](http://www.krakend.io/designer/)** and download the edited file. To reflect the changes restart docker-compose.
