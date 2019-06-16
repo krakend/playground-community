@@ -65,6 +65,23 @@
       }
     },
     {
+      "endpoint": "/sequential",
+      "backend": [
+        {
+          "url_pattern": "/hotels/1.json",
+          "whitelist": [ "destination_id" ]
+        },
+        {
+          "url_pattern": "/destinations/{resp0_destination_id}.json"
+        }
+      ],
+      "extra_config": {
+          "github.com/devopsfaith/krakend/proxy": {
+            "sequential": true
+          }
+      }
+    },
+    {
       "endpoint": "/fail",
       "backend": [
         {

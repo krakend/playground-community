@@ -1,0 +1,31 @@
+{
+	"destination_id": 1,
+	"description": "Top Tourist Attractions in the USA",
+	"destinations": [
+		"Mount Rushmore",
+		"Pike Place Market in Seattle",
+		"Venice Beach in LA",
+		"Mesa Verde",
+		"Faneuil Hall in Boston",
+		"Kennedy Space Center",
+		"Navy Pier in Chicago",
+		"Great Smoky Mountains National Park",
+		"River Walk in San Antonio",
+		"Carlsbad Caverns",
+		"Bryce Canyon National Park",
+		"French Quarter in New Orleans",
+		"Sedona Red Rock Country",
+		"Walt Disney World in Orlando",
+		"Yosemite National Park",
+		"White House in Washington D.C.",
+		"Denali National Park",
+		"Las Vegas Strip",
+		"Florida Keys",
+		"Kilauea",
+		"Niagara Falls",
+		"Golden Gate Bridge in San Francisco",
+		"Yellowstone",
+		"Manhattan",
+		"Grand Canyon"
+	]
+}
