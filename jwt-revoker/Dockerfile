@@ -1,11 +1,14 @@
 FROM golang:1.12
 
-WORKDIR /go/src/app
+RUN mkdir /app
+WORKDIR /app
 COPY . .
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN GOPROXY=https://goproxy.io go get -d -v ./...
+RUN GOPROXY=https://goproxy.io go install -v ./...
+RUN pwd
+RUN ls -l .
 
 EXPOSE 8080
 
-CMD ["app"]
+CMD ["jwt-revoker"]
