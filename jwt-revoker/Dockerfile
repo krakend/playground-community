@@ -5,9 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN GOPROXY=https://goproxy.io go get -d -v ./...
-RUN GOPROXY=https://goproxy.io go install -v ./...
-RUN pwd
-RUN ls -l .
+RUN go install .
 
 EXPOSE 8080
 
