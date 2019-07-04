@@ -6,6 +6,8 @@ The KrakenD Playground is a demonstration environment that puts together the nec
 
 As KrakenD is an API gateway, we have added to the environment both the API (backend) that feeds the gateway and a website consuming KrakenD. Additionally, a dashboard with the metrics is also available so you can see your activity.
 
+![KrakenD Docker compose](https://github.com/devopsfaith/krakend-playground/blob/master/composer-env.png?raw=true)
+
 ## Services
 The docker-compose starts the following services:
 
