@@ -18,7 +18,7 @@
     "express-jwt-authz": "^1.0.0",
     "jwks-rsa": "^1.2.0",
     "npm-run-all": "^4.0.2",
-    "serve": "^6.0.0"
+    "serve": "^11.2.0"
   }
 }
 
