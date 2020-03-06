@@ -19,7 +19,7 @@
       "exporters": {
         "jaeger": {
           "endpoint": "http://jaeger:14268",
-          "serviceName":"krakend"
+          "service_name":"krakend"
         }
       }
     },
