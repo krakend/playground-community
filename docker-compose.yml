@@ -21,7 +21,7 @@ services:
     ports:
       - 8787:80
   krakend_ce:
-    image: devopsfaith/krakend:1.1.1
+    image: devopsfaith/krakend:1.2.0
     volumes:
       - ./krakend:/etc/krakend
     ports:
