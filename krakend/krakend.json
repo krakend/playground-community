@@ -18,7 +18,7 @@
       "reporting_period": 1,
       "exporters": {
         "jaeger": {
-          "endpoint": "http://jaeger:14268",
+          "endpoint": "http://jaeger:14268/api/traces",
           "service_name":"krakend"
         }
       }
