@@ -1,5 +1,21 @@
 version: "3"
 services:
+  grafana:
+    build:
+      dockerfile: Dockerfile
+      context: ./grafana
+    ports:
+      - "3003:3000"
+  influxdb:
+    image: influxdb:latest
+    environment:
+      - "INFLUXDB_DB=krakend"
+      - "INFLUXDB_USER=krakend-dev"
+      - "INFLUXDB_USER_PASSWORD=pas5w0rd"
+      - "INFLUXDB_ADMIN_USER=admin"
+      - "INFLUXDB_ADMIN_PASSWORD=supersecretpassword"
+    ports:
+      - "8086:8086"
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:

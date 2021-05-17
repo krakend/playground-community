@@ -43,6 +43,8 @@ Runs on [http://localhost:8080](http://localhost:8080)
 ### Metrics
 A Jaeger dashboard shows the traces of the activity you generate. Runs on [http://localhost:16686](http://localhost:16686)
 
+A Grafana dashboard shows the metrics of the activity you generate. Runs on [http://localhost:3003](http://localhost:3003) (credentials: admin/admin)
+
 ### The JWT revoker
 A simple implementation of a JWT rovoker using the KrakenD remote bloomfilter client.
 
