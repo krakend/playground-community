@@ -5,7 +5,12 @@
   "host": [ "http://fake_api:8080" ],
   "extra_config": {
     "github_com/devopsfaith/krakend-metrics": {
+      "collection_time": "30s",
       "listen_address":":8090"
+    },
+    "github_com/letgoapp/krakend-influx":{
+      "address":"http://influxdb:8086",
+      "ttl":"25s"
     },
     "github_com/devopsfaith/krakend-gologging": {
       "level":  "DEBUG",
