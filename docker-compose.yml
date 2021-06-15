@@ -7,7 +7,7 @@ services:
     ports:
       - "3003:3000"
   influxdb:
-    image: influxdb:latest
+    image: influxdb:1.8
     environment:
       - "INFLUXDB_DB=krakend"
       - "INFLUXDB_USER=krakend-dev"
