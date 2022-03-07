@@ -21,6 +21,10 @@ services:
     ports:
       - "16686:16686"
       - "14268:14268"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
   fake_api:
     image: jaxgeller/lwan
     volumes:
@@ -44,6 +48,7 @@ services:
       - "1234:1234"
       - "8080:8080"
       - "8090:8090"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
     depends_on:
       - fake_api
       - jaeger

@@ -44,6 +44,36 @@
       "token_keys": ["jti"]
     }
   },
+  "sequential_start":true,
+  "async_agent":[
+      {
+          "name": "async-agent-demo",
+          "backend": [
+              {
+                  "host":[ "http://127.0.0.1:8080" ],
+                  "url_pattern": "/__debug/async-agent-demo",
+                  "method": "POST"
+              }
+          ],
+          "consumer": {
+              "topic": "*.bar",
+              "workers": 20
+          },
+          "connection": {
+              "max_retries": 10,
+              "backoff_strategy":"exponential-jitter"
+          },
+          "extra_config": {
+              "async/amqp": {
+                  "name":           "krakend",
+                  "host":           "amqp://guest:guest@rabbitmq:5672/",
+                  "exchange":       "foo",
+                  "prefetch_count": 40,
+                  "auto_ack":       true
+              }
+          }
+      }
+    ],
   "endpoints": [
     {
       "endpoint": "/splash",
