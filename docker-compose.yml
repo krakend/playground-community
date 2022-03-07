@@ -37,7 +37,7 @@ services:
     ports:
       - "3000:3000"
   kraken_designer:
-    image: devopsfaith/krakendesigner:latest
+    image: devopsfaith/krakendesigner:v2.0
     ports:
       - 8787:80
   krakend_ce:
