@@ -21,6 +21,10 @@ services:
     ports:
       - "16686:16686"
       - "14268:14268"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
   fake_api:
     image: jaxgeller/lwan
     volumes:
@@ -33,17 +37,18 @@ services:
     ports:
       - "3000:3000"
   kraken_designer:
-    image: devopsfaith/krakendesigner:latest
+    image: devopsfaith/krakendesigner:v2.0
     ports:
       - 8787:80
   krakend_ce:
-    image: devopsfaith/krakend:1.4.1
+    image: devopsfaith/krakend:2
     volumes:
       - ./krakend:/etc/krakend
     ports:
       - "1234:1234"
       - "8080:8080"
       - "8090:8090"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
     depends_on:
       - fake_api
       - jaeger

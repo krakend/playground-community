@@ -34,6 +34,11 @@ You can drag the file `krakend/krakend.json` anytime in the dashboard and resume
 
 Runs on [http://localhost:8787](http://localhost:8787)
 
+### The async source
+A RabbitMQ instance ready to accept amqp messages to be delivered to the gateway.
+
+You can manage the queue consumed by the async agent at [http://localhost:15672/#/queues/%2F/krakend](http://localhost:15672/#/queues/%2F/krakend) (credentials: guest/guest)
+
 ### The gateway!
 An instance of KrakenD with several endpoints. Its configuration is in the folder `krakend/`.
 
