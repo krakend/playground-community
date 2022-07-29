@@ -8,9 +8,13 @@
       "collection_time": "30s",
       "listen_address":":8090"
     },
-    "telemetry/influx":{
-      "address":"http://influxdb:8086",
-      "ttl":"25s"
+    "telemetry/influx": {
+        "address": "http://influxdb:8086",
+        "buffer_size": 0,
+        "ttl": "25s",
+        "db": "krakend",
+        "username": "krakend-dev",
+        "password": "pas5w0rd"
     },
     "telemetry/logging": {
       "level":  "DEBUG",
