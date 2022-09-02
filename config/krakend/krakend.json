@@ -10,9 +10,7 @@
       "endpoint": "/git/{user}",
       "backend": [
         {
-          "host": [
-            "https://api.github.com"
-          ],
+          "host": ["https://api.github.com"],
           "url_pattern": "/users/{user}",
           "allow": [
             "avatar_url",
@@ -32,34 +30,21 @@
           "group": "user"
         },
         {
-          "host": [
-            "https://api.github.com"
-          ],
+          "host": ["https://api.github.com"],
           "url_pattern": "/users/{user}/repos",
           "mapping": {
             "collection": "repos"
           },
           "is_collection": true
         }
-      ],
-      "extra_config": {
-        "documentation/openapi": {
-          "summary": "Merges two calls from github and serves under a single endpoint",
-          "description": "This endpoint fetches in parallel the user information and the repository information from Githuib and returns it together. Non interesting fields are removed.",
-          "tags": [
-            "Aggregation"
-          ]
-        }
-      }
+      ]
     },
     {
       "@comment": "Feature: Aggregation & Transformation with collections",
       "endpoint": "/cryptos/{currency}",
       "backend": [
         {
-          "host": [
-            "https://api.coingecko.com"
-          ],
+          "host": ["https://api.coingecko.com"],
           "url_pattern": "/api/v3/coins/markets?vs_currency={currency}&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
           "encoding": "safejson",
           "extra_config": {
@@ -101,9 +86,7 @@
           }
         },
         {
-          "host": [
-            "https://api.coingecko.com"
-          ],
+          "host": ["https://api.coingecko.com"],
           "url_pattern": "/api/v3/global",
           "allow": [
             "total_market_cap.btc",
@@ -117,16 +100,7 @@
           "target": "data",
           "group": "market"
         }
-      ],
-      "extra_config": {
-        "documentation/openapi": {
-          "summary": "Get crypto capitalization data for a given currency",
-          "description": "This endpoint fetches crypto capitalization data from Coingecko for a given currency.",
-          "tags": [
-            "Aggregation"
-          ]
-        }
-      }
+      ]
     },
     {
       "@comment": "Feature: Aggregation + backend rate limiting + endpoint rate limiting",
@@ -154,29 +128,37 @@
       }
     },
     {
+      "@comment": "Feature: Backend cache",
+      "endpoint": "/market/cached",
+      "backend": [
+        {
+          "host": ["https://api.coingecko.com"],
+          "url_pattern": "/api/v3/coins/markets?vs_currency=eur&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
+          "encoding": "safejson",
+          "mapping": {
+            "collection": "coins"
+          },
+          "extra_config": {
+            "qos/http-cache": {
+              "shared": true
+            }
+          }
+        }
+      ]
+    },
+    {
       "@comment": "Feature: Concurrent calls - Not enabled",
       "endpoint": "/market/simple",
       "backend": [
         {
-          "host": [
-            "https://api.coingecko.com"
-          ],
+          "host": ["https://api.coingecko.com"],
           "url_pattern": "/api/v3/coins/markets?vs_currency=eur&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
           "encoding": "safejson",
           "mapping": {
             "collection": "coins"
           }
         }
-      ],
-      "extra_config": {
-        "documentation/openapi": {
-          "summary": "Get crypto market information with a single call",
-          "description": "This endpoint fetches crypto market information from Coingecko using a single non-concurrent call.",
-          "tags": [
-            "Concurrent calls"
-          ]
-        }
-      }
+      ]
     },
     {
       "@comment": "Feature: Concurrent calls - Enabled",
@@ -184,25 +166,14 @@
       "concurrent_calls": 3,
       "backend": [
         {
-          "host": [
-            "https://api.coingecko.com"
-          ],
+          "host": ["https://api.coingecko.com"],
           "url_pattern": "/api/v3/coins/markets?vs_currency=eur&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
           "encoding": "safejson",
           "mapping": {
             "collection": "coins"
           }
         }
-      ],
-      "extra_config": {
-        "documentation/openapi": {
-          "summary": "Get crypto market information with 3 concurrent calls",
-          "description": "This endpoint fetches crypto market information from Coingecko using 3 concurrent calls.",
-          "tags": [
-            "Concurrent calls"
-          ]
-        }
-      }
+      ]
     },
     {
       "@comment": "Feature: Sequential calls, using values from 1st call response into 2nd call request",

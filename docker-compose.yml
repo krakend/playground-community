@@ -1,7 +1,7 @@
 version: "3"
 services:
   krakend_ce:
-    image: devopsfaith/krakend:2.0.6
+    image: devopsfaith/krakend:watch
     volumes:
       - ./config/krakend:/etc/krakend
     ports:
@@ -47,13 +47,14 @@ services:
       - "8000:8080"
   web:
     build:
-      context: config/spa-auth-web
+      context: images/spa-auth-web
     ports:
       - "3000:3000"
   jwt_revoke:
     build:
-      context: config/jwt-revoker
+      context: images/jwt-revoker
     ports:
       - "9000:8080"
     depends_on:
       - krakend_ce
+    restart: always
