@@ -1,0 +1,414 @@
+{
+  "$id": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "host": [ "http://fake_api:8080" ],
+  "endpoints": [
+    {
+      "@comment": "Feature: Aggregation & Transformation",
+      "endpoint": "/git/{user}",
+      "backend": [
+        {
+          "host": [
+            "https://api.github.com"
+          ],
+          "url_pattern": "/users/{user}",
+          "allow": [
+            "avatar_url",
+            "name",
+            "company",
+            "blog",
+            "location",
+            "mail",
+            "hireable",
+            "followers",
+            "public_repos",
+            "public_gists"
+          ],
+          "mapping": {
+            "blog": "website"
+          },
+          "group": "user"
+        },
+        {
+          "host": [
+            "https://api.github.com"
+          ],
+          "url_pattern": "/users/{user}/repos",
+          "mapping": {
+            "collection": "repos"
+          },
+          "is_collection": true
+        }
+      ],
+      "extra_config": {
+        "documentation/openapi": {
+          "summary": "Merges two calls from github and serves under a single endpoint",
+          "description": "This endpoint fetches in parallel the user information and the repository information from Githuib and returns it together. Non interesting fields are removed.",
+          "tags": [
+            "Aggregation"
+          ]
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Aggregation & Transformation with collections",
+      "endpoint": "/cryptos/{currency}",
+      "backend": [
+        {
+          "host": [
+            "https://api.coingecko.com"
+          ],
+          "url_pattern": "/api/v3/coins/markets?vs_currency={currency}&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
+          "encoding": "safejson",
+          "extra_config": {
+            "proxy": {
+              "flatmap_filter": [
+                {
+                  "type": "move",
+                  "args": [
+                    "collection",
+                    "coins"
+                  ]
+                },
+                {
+                  "type": "del",
+                  "args": [
+                    "coins.*.ath_change_percentage",
+                    "coins.*.ath_date",
+                    "coins.*.atl",
+                    "coins.*.atl_change_percentage",
+                    "coins.*.atl_date",
+                    "coins.*.circulating_supply",
+                    "coins.*.fully_diluted_valuation",
+                    "coins.*.high_24h",
+                    "coins.*.fully_diluted_valuation",
+                    "coins.*.low_24h",
+                    "coins.*.market_cap_change_24h",
+                    "coins.*.market_cap_change_percentage_24h",
+                    "coins.*.market_cap_rank",
+                    "coins.*.max_supply",
+                    "coins.*.price_change_24h",
+                    "coins.*.price_change_percentage_24h",
+                    "coins.*.roi",
+                    "coins.*.total_supply",
+                    "coins.*.total_volume"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "host": [
+            "https://api.coingecko.com"
+          ],
+          "url_pattern": "/api/v3/global",
+          "allow": [
+            "total_market_cap.btc",
+            "total_market_cap.eth",
+            "total_volume.btc",
+            "total_volume.eth",
+            "market_cap_percentage.btc",
+            "market_cap_percentage.eth",
+            "updated_at"
+          ],
+          "target": "data",
+          "group": "market"
+        }
+      ],
+      "extra_config": {
+        "documentation/openapi": {
+          "summary": "Get crypto capitalization data for a given currency",
+          "description": "This endpoint fetches crypto capitalization data from Coingecko for a given currency.",
+          "tags": [
+            "Aggregation"
+          ]
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Aggregation + backend rate limiting + endpoint rate limiting",
+      "endpoint": "/shop",
+      "backend": [
+        {
+          "url_pattern": "/shop/campaigns.json",
+          "allow": [ "campaigns" ]
+        },
+        {
+          "url_pattern": "/shop/products.json",
+          "allow": [ "products" ],
+          "extra_config": {
+            "qos/ratelimit/proxy": {
+              "max_rate": 1,
+              "capacity": 1
+            }
+          }
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 2
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Concurrent calls - Not enabled",
+      "endpoint": "/market/simple",
+      "backend": [
+        {
+          "host": [
+            "https://api.coingecko.com"
+          ],
+          "url_pattern": "/api/v3/coins/markets?vs_currency=eur&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
+          "encoding": "safejson",
+          "mapping": {
+            "collection": "coins"
+          }
+        }
+      ],
+      "extra_config": {
+        "documentation/openapi": {
+          "summary": "Get crypto market information with a single call",
+          "description": "This endpoint fetches crypto market information from Coingecko using a single non-concurrent call.",
+          "tags": [
+            "Concurrent calls"
+          ]
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Concurrent calls - Enabled",
+      "endpoint": "/market/concurrent",
+      "concurrent_calls": 3,
+      "backend": [
+        {
+          "host": [
+            "https://api.coingecko.com"
+          ],
+          "url_pattern": "/api/v3/coins/markets?vs_currency=eur&ids=bitcoin%2Cethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false",
+          "encoding": "safejson",
+          "mapping": {
+            "collection": "coins"
+          }
+        }
+      ],
+      "extra_config": {
+        "documentation/openapi": {
+          "summary": "Get crypto market information with 3 concurrent calls",
+          "description": "This endpoint fetches crypto market information from Coingecko using 3 concurrent calls.",
+          "tags": [
+            "Concurrent calls"
+          ]
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Sequential calls, using values from 1st call response into 2nd call request",
+      "endpoint": "/sequential",
+      "backend": [
+        {
+          "url_pattern": "/hotels/1.json",
+          "allow": [ "destination_id" ]
+        },
+        {
+          "url_pattern": "/destinations/{resp0_destination_id}.json"
+        }
+      ],
+      "extra_config": {
+        "proxy": {
+          "sequential": true
+        }
+      }
+    },
+    {
+      "@comment": "Feature: A failing request from a non-existent backend",
+      "endpoint": "/fail",
+      "backend": [
+        {
+          "url_pattern": "/user/1.json",
+          "group": "user"
+        },
+        {
+          "host": [ "http://fake_url_that_should_not_resolve.tld" ],
+          "url_pattern": "/",
+          "group": "none"
+        }
+      ]
+    },
+    {
+      "@comment": "Feature: Authorization based on JWT (using Auth0)",
+      "endpoint": "/private/auth0",
+      "backend": [
+        {
+          "url_pattern": "/user/1.json"
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["http://api.example.com"],
+          "roles_key": "http://api.example.com/custom/roles",
+          "roles": ["user", "admin"],
+          "jwk_url": "https://albert-test.auth0.com/.well-known/jwks.json"
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Authorization based on JWT (using KrakenD JOSE signer)",
+      "endpoint": "/private/custom",
+      "backend": [
+        {
+          "url_pattern": "/user/1.json"
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "HS256",
+          "audience": ["http://api.example.com"],
+          "roles_key": "roles",
+          "issuer": "https://krakend.io",
+          "roles": ["role_a", "role_c"],
+          "jwk_url": "http://fake_api:8080/jwk/symmetric.json",
+          "disable_jwk_security": true
+        }
+      }
+    },
+    {
+      "@comment": "Feature: JWT signing, as described at https://www.krakend.io/docs/authorization/jwt-signing/",
+      "endpoint": "/token",
+      "backend": [
+        {
+          "url_pattern": "/token.json"
+        }
+      ],
+      "extra_config": {
+        "auth/signer": {
+          "alg": "HS256",
+          "kid": "sim2",
+          "keys_to_sign": ["access_token", "refresh_token"],
+          "jwk_url": "http://fake_api:8080/jwk/symmetric.json",
+          "disable_jwk_security": true
+        }
+      }
+    },
+    {
+      "@comment": "Feature: Only POST method allowed",
+      "endpoint": "/post",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/__debug/post"
+        }
+      ]
+    },
+    {
+      "@comment": "Feature: Mocked response",
+      "endpoint": "/mocked-response",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [{"host": ["http://unexistent_backend"], "url_pattern": "/"}],
+      "extra_config": {
+        "proxy": {
+          "static": {
+            "data": {
+              "an_integer": 123,
+              "an_array": [
+                "arr1",
+                "arr2"
+              ],
+              "an_object": {
+                "obj": "obj1"
+              }
+            }
+          ,
+            "strategy": "always"
+          }
+        }
+      }
+    }
+  ],
+  "sequential_start":true,
+  "async_agent":[
+    {
+      "name": "async-agent-demo",
+      "backend": [
+        {
+          "host":[ "http://127.0.0.1:8080" ],
+          "url_pattern": "/__debug/async-agent-demo",
+          "method": "POST"
+        }
+      ],
+      "consumer": {
+        "topic": "*.bar",
+        "workers": 20
+      },
+      "connection": {
+        "max_retries": 10,
+        "backoff_strategy":"exponential-jitter"
+      },
+      "extra_config": {
+        "async/amqp": {
+          "name":           "krakend",
+          "host":           "amqp://guest:guest@rabbitmq:5672/",
+          "exchange":       "foo",
+          "prefetch_count": 40,
+          "auto_ack":       true
+        }
+      }
+    }
+  ],
+  "extra_config": {
+    "telemetry/metrics": {
+      "collection_time": "30s",
+      "listen_address":":8090"
+    },
+    "telemetry/influx":{
+      "address":"http://influxdb:8086",
+      "ttl":"25s",
+      "buffer_size": 100,
+      "username": "krakend-dev",
+      "password": "pas5w0rd"
+    },
+    "telemetry/gelf": {
+      "address": "logstash:12201",
+      "enable_tcp": false
+    },
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "telemetry/opencensus": {
+      "sample_rate": 100,
+      "reporting_period": 1,
+      "enabled_layers": {
+        "backend": true,
+        "router": true
+      },
+      "exporters": {
+        "jaeger": {
+          "endpoint": "http://jaeger:14268/api/traces",
+          "service_name": "krakend"
+        }
+      }
+    },
+    "security/cors": {
+      "allow_origins": [ "http://localhost:8080", "http://localhost:3000", "http://192.168.99.100:3000" ],
+      "allow_methods": [ "POST", "GET" ],
+      "allow_headers": ["Origin","Authorization","Content-Type"],
+      "expose_headers": ["Content-Length"],
+      "max_age": "12h"
+    },
+    "auth/revoker": {
+      "N": 10000000,
+      "P": 0.0000001,
+      "hash_name": "optimal",
+      "TTL": 1500,
+      "port": 1234,
+      "token_keys": ["jti"]
+    }
+  }
+}

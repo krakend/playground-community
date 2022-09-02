@@ -4,46 +4,45 @@ KrakenD Playground
 ====
 The KrakenD Playground is a demonstration environment that puts together the necessary pieces to get you started with our API Gateway, using an example web application.
 
-As KrakenD is an API gateway, we have added to the environment both the API (backend) that feeds the gateway and a website consuming KrakenD. Additionally, a dashboard with the metrics is also available so you can see your activity.
+As KrakenD is an API gateway, we have added surrounding services:
+
+- Internal and third-party services that feed the gateway
+- Authentication/authorization examples, including JWT token-based authentication with Auth0 integration, a JWT token revoker, API-Key-based authentication, and basic authentication.
+- Integrations with Grafana+Influx (metrics), ELK (log storing and visualization), and Jaeger (tracing).
 
 ![KrakenD Docker compose](https://github.com/devopsfaith/krakend-playground/blob/master/composer-env.png?raw=true)
 
 ## Services
 The docker-compose starts the following services:
 
+### The API Gateway!
+On port `8080` you have an instance of KrakenD Community Edition with several endpoints. Its configuration is available at `config/krakend/krakend.json`, including descriptive `@comments` for each endpoint.
+
+### Fake API backend
+On port `8000` you have a simple API that provides raw data to the gateway. You can add or remove data by adding XML, JSON, or RSS files in the `data` folder.
+
+It runs in [http://localhost:8000](http://localhost:8000)
+
+### Metrics, logs & tracing
+Request several endpoints and then open any of the metrics included in this demo:
+
+- A **Grafana** dashboard shows the metrics provided by InfluxDB. Grafana runs on [http://localhost:4000](http://localhost:4000)
+- A **Jaeger** dashboard shows the traces of the activity you generate on [http://localhost:16686](http://localhost:16686)
+- A **Kibana** dashboard shows the logs registered by Logstash and persisted in Elasticsearch. Kibana runs on [http://localhost:5601](http://localhost:5601)
+
 ### Web client
-The consumer of the API gateway is a simple Express JS application that interacts with KrakenD to fetch the data. All code is under `web/`.
+This consumer of the API gateway is a simple Express JS application that interacts with KrakenD to fetch the data. All code is under `web/`.
 
 The client is a Single Page Application using [Auth0](https://auth0.com) to generate JWT tokens.
 
-**You don't need to install any npm locally**, the docker image will download and install the dependencies in the container for you.
+**You don't need to install any npm locally**; the docker image will download and install the dependencies in the container.
 
-Runs on [http://localhost:3000](http://localhost:3000)
-
-### Backend
-A simple API that provides raw data to the gateway.
-
-You can add or remove data any time by adding XML, JSON or RSS files in the `data` folder.
-
-Runs on [http://localhost:8000](http://localhost:8000)
-
-### The designer
-An instance of Krakendesigner (the GUI for manipulating the `krakend/krakend.json` file.
-
-You can drag the file `krakend/krakend.json` anytime in the dashboard and resume the edition from there.
-
-Runs on [http://localhost:8787](http://localhost:8787)
+Visit [http://localhost:3000](http://localhost:3000)
 
 ### The async source
 A RabbitMQ instance ready to accept amqp messages to be delivered to the gateway.
 
 You can manage the queue consumed by the async agent at [http://localhost:15672/#/queues/%2F/krakend](http://localhost:15672/#/queues/%2F/krakend) (credentials: guest/guest)
-
-### The gateway!
-An instance of KrakenD with several endpoints. Its configuration is in the folder `krakend/`.
-
-
-Runs on [http://localhost:8080](http://localhost:8080)
 
 ### Metrics
 A Jaeger dashboard shows the traces of the activity you generate. Runs on [http://localhost:16686](http://localhost:16686)
@@ -51,7 +50,9 @@ A Jaeger dashboard shows the traces of the activity you generate. Runs on [http:
 A Grafana dashboard shows the metrics of the activity you generate. Runs on [http://localhost:3003](http://localhost:3003) (credentials: admin/admin)
 
 ### The JWT revoker
-A simple implementation of a JWT rovoker using the KrakenD remote bloomfilter client.
+A simple implementation of a JWT revoker using the KrakenD remote [bloomfilter client](https://github.com/krakendio/bloomfilter).
+
+More information about JWT revoking is available at https://www.krakend.io/docs/authorization/revoking-tokens/
 
 
 Runs on [http://localhost:9000](http://localhost:9000)
@@ -68,36 +69,57 @@ Create a new SPA application in [Auth0](https://manage.auth0.com/) and fill the 
 This must be done before starting the docker-compose.
 If you have started docker-compose before setting these variables, you need to build the image again with `docker-compose build web`.
 
-### Start the service
-Just:
+### Running the playground
 
-    docker-compose up
+To start the stack included in docker-compose
+```shell
+    $ make start
+```
+
+To follow the KrakenD logs after the complete stack is up & running
+```shell
+    $ make logs
+```
+
+To shut down the complete stack, removing all the volumes
+```shell
+    $ make stop
+```
 
 ## Play!
 Fire up your browser, curl, postman, httpie or anything else you like to interact with any of the published services.
 
-- Web: [http://localhost:3000](http://localhost:3000)
-- Backend: [http://localhost:8000](http://localhost:8000)
-- API Gateway: [http://localhost:8080](http://localhost:8080)
-- Jaeger tracing: [http://localhost:16686](http://localhost:16686)
+- Fake API: [http://localhost:8000](http://localhost:8000)
+- KrakenD API Gateway: [http://localhost:8080](http://localhost:8080)
+- Jaeger (tracing): [http://localhost:16686](http://localhost:16686)
+- Kibana (logs): [http://localhost:5601](http://localhost:5601)
+- Grafana (metrics): [http://localhost:4000](http://localhost:4000)
+- Sample SPA for auth: [http://localhost:3000](http://localhost:3000)
 - JWT revoker: [http://localhost:9000](http://localhost:9000)
 
+| 💡 Bonus track - Flexible configuration |
+| --- |
+| We've added an example of [flexible configuration](https://www.krakend.io/docs/configuration/flexible-config/), so you can view how it works in practice. <br><br> Apart from the default config file, `krakend.json`, you will find a `krakend-flexible-config.tmpl`, that includes some code snippets, invokes a template using variables, and show some basic logic (iterations & conditions). <br><br> When working with the flexible configuration, you can optionally ask KrakenD to save the "compiled" output to a file. We've added a command `make compile-flexible-config` so you can see quickly and easily how KrakenD builds the final configuration file based on the existing templates.<br><br>Internally KrakenD's flexible configuration uses [Golang templating syntax](https://pkg.go.dev/text/template#hdr-Examples). |
+
 ## Editing the API Gateway endpoints
-To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD designer](http://www.krakend.io/designer/)** and download the edited file. To reflect the changes restart docker-compose.
+To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD Designer](https://designer.krakend.io/)** and downloading the edited file. Then, to reflect the changes, restart with `make restart`.
 
-To change the data in the static server (simulating your backend API) edit, add or delete files in the **`data/`** folder.
-
+To change the data in the static server (simulating your backend API), edit, add or delete files in the **`data/`** folder.
 The following endpoints are worth noticing:
 
 - `/private/auth0`: Protects and endpoint validating JWT tokens issued by Auth0
 - `/private/custom`: Protects and endpoint validating custom JWT tokens signed with `/token`.
 - `/token`: Signs a token
 - `/public`: Simple aggregation of two public API calls from Bitbucket and Github with some field selection.
-- `/splash`: Public endpoint aggregating data from the internal backend
+- `/shop`: Public endpoint aggregating data from the internal backend
 
 ## Contribute!
-This repository is the place for everyone to start using KrakenD. Maybe we are too used to KrakenD, and we don't realize what would be good to include here for a starter.
+Everyone can get started with KrakenD at this repository.
 
-If it doesn't help you good enough or you think that you can add other demo endpoints or middleware integrations, please open a pull request!
+Try it out! If it doesn't help you, or you think you can add additional endpoints or middleware integrations, please open a pull request! (We may be too used to KrakenD and don't recognize what a starter demo should include.)
 
 Thanks!
+
+---
+
+_Note: if you're looking for the KrakenD Enterprise Edition Playground, you'll find it here: https://github.com/krakendio/playground-enterprise_

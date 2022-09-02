@@ -1,11 +1,25 @@
 version: "3"
 services:
-  grafana:
-    build:
-      dockerfile: Dockerfile
-      context: ./grafana
+  krakend_ce:
+    image: devopsfaith/krakend:2.0.6
+    volumes:
+      - ./config/krakend:/etc/krakend
     ports:
-      - "3003:3000"
+      - "1234:1234"
+      - "8080:8080"
+      - "8090:8090"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+    depends_on:
+      - fake_api
+      - jaeger
+  grafana:
+    image: grafana/grafana:9.1.2
+    ports:
+      - "4000:3000"
+    volumes:
+      - "./config/grafana/datasources/all.yml:/etc/grafana/provisioning/datasources/all.yml"
+      - "./config/grafana/dashboards/all.yml:/etc/grafana/provisioning/dashboards/all.yml"
+      - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
   influxdb:
     image: influxdb:1.8
     environment:
@@ -17,10 +31,31 @@ services:
     ports:
       - "8086:8086"
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:1
     ports:
       - "16686:16686"
       - "14268:14268"
+  elasticsearch:
+    image: elasticsearch:5.6.13-alpine
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - "19200:9200"
+      - "9300:9300"
+  kibana:
+    image: kibana:5.6.13
+    ports:
+      - "5601:5601"
+  logstash:
+    image: logstash:5.6.13-alpine
+    ports:
+      - "12201:12201/udp"
+      - "5044:5044"
+    environment:
+      - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
+    volumes:
+      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    command: [ "-f", "/usr/share/logstash/pipeline/logstash.conf" ]
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -33,28 +68,12 @@ services:
       - "8000:8080"
   web:
     build:
-      context: ./web
+      context: config/spa-auth-web
     ports:
       - "3000:3000"
-  kraken_designer:
-    image: devopsfaith/krakendesigner:v2.0
-    ports:
-      - 8787:80
-  krakend_ce:
-    image: devopsfaith/krakend:2.0.5
-    volumes:
-      - ./krakend:/etc/krakend
-    ports:
-      - "1234:1234"
-      - "8080:8080"
-      - "8090:8090"
-    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
-    depends_on:
-      - fake_api
-      - jaeger
   jwt_revoke:
     build:
-      context: ./jwt-revoker
+      context: config/jwt-revoker
     ports:
       - "9000:8080"
     depends_on:
