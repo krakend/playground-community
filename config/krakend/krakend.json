@@ -371,10 +371,6 @@
       "username": "krakend-dev",
       "password": "pas5w0rd"
     },
-    "telemetry/gelf": {
-      "address": "logstash:12201",
-      "enable_tcp": false
-    },
     "telemetry/logging": {
       "level": "DEBUG",
       "prefix": "[KRAKEND]",

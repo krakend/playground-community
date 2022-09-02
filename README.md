@@ -28,7 +28,6 @@ Request several endpoints and then open any of the metrics included in this demo
 
 - A **Grafana** dashboard shows the metrics provided by InfluxDB. Grafana runs on [http://localhost:4000](http://localhost:4000)
 - A **Jaeger** dashboard shows the traces of the activity you generate on [http://localhost:16686](http://localhost:16686)
-- A **Kibana** dashboard shows the logs registered by Logstash and persisted in Elasticsearch. Kibana runs on [http://localhost:5601](http://localhost:5601)
 
 ### Web client
 This consumer of the API gateway is a simple Express JS application that interacts with KrakenD to fetch the data. All code is under `web/`.
@@ -92,7 +91,6 @@ Fire up your browser, curl, postman, httpie or anything else you like to interac
 - Fake API: [http://localhost:8000](http://localhost:8000)
 - KrakenD API Gateway: [http://localhost:8080](http://localhost:8080)
 - Jaeger (tracing): [http://localhost:16686](http://localhost:16686)
-- Kibana (logs): [http://localhost:5601](http://localhost:5601)
 - Grafana (metrics): [http://localhost:4000](http://localhost:4000)
 - Sample SPA for auth: [http://localhost:3000](http://localhost:3000)
 - JWT revoker: [http://localhost:9000](http://localhost:9000)
