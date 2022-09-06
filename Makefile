@@ -10,7 +10,7 @@ restart:
 	docker-compose restart
 
 logs:
-	docker-compose logs -f krakend_ce
+	docker-compose logs -f logstash
 
 compile-flexible-config:
 	docker run \

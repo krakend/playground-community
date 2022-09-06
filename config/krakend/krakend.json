@@ -359,6 +359,10 @@
       "syslog": false,
       "stdout": true
     },
+    "telemetry/gelf": {
+      "address": "logstash:12201",
+      "enable_tcp": false
+    },
     "telemetry/opencensus": {
       "sample_rate": 100,
       "reporting_period": 1,
