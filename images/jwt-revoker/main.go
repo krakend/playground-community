@@ -7,11 +7,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/devopsfaith/bloomfilter/rpc/client"
+	"github.com/krakendio/bloomfilter/v2/rpc/client"
 )
 
 func main() {
-	server := flag.String("server", "krakend_ce:1234", "ip:port of the remote bloomfilter to connect to")
+	server := flag.String("server", "krakend:1234", "ip:port of the remote bloomfilter to connect to")
 	key := flag.String("key", "jti", "the name of the claim to inspect for revocations")
 	port := flag.Int("port", 8080, "port to expose the service")
 	flag.Parse()
@@ -23,20 +23,20 @@ func main() {
 	}
 	defer c.Close()
 
-	tmpl, err := template.New("home").Parse(indexPageContent)
+	tmpl, _ := template.New("home").Parse(indexPageContent)
 
 	http.HandleFunc("/add/", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		subject := *key + "-" + r.FormValue(*key)
 		c.Add([]byte(subject))
 		log.Printf("adding [%s] %s", *key, subject)
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/", http.StatusFound)
 	})
 
 	http.HandleFunc("/check/", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		subject := *key + "-" + r.FormValue(*key)
-		res := c.Check([]byte(subject))
+		res, _ := c.Check([]byte(subject))
 		log.Printf("checking [%s] %s => %v", *key, subject, res)
 		fmt.Fprintf(w, "%v", res)
 	})
@@ -83,7 +83,7 @@ const indexPageContent = `
 		</form>
     </div>
   </div>
-    
+
 
   </div>
   </body>
