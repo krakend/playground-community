@@ -1,0 +1,91 @@
+{
+  "plugin/http-server": {
+      "name": [
+        "static-filesystem"
+      ],
+      "static-filesystem": {
+        "prefix": "/demo/",
+        "path": "/etc/krakend/demo/"
+      }
+    },
+    "documentation/openapi": {
+      "fraction": 1,
+      "version": "1",
+      "contact_name": "John Doe",
+      "contact_email": "contact@example.com",
+      "license_name": "MIT",
+      "license_url": "https://opensource.org/licenses/MIT"
+    },
+    "security/cors": {
+      "allow_origins": [
+        "*"
+      ],
+      "allow_methods": [
+        "POST",
+        "GET"
+      ],
+      "allow_headers": [
+        "Origin",
+        "Authorization",
+        "Content-Type"
+      ],
+      "expose_headers": [
+        "Content-Length"
+      ],
+      "max_age": "12h"
+    },
+    "telemetry/gelf": {
+      "address": "logstash:12201"
+    },
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "telemetry/metrics": {
+      "collection_time": "60s",
+      "listen_address": ":8090"
+    },
+    "telemetry/influx": {
+      "address": "http://influxdb:8086",
+      "ttl": "25s",
+      "buffer_size": 0,
+      "username": "krakend-dev",
+      "password": "pas5w0rd"
+    },
+    "telemetry/opencensus": {
+      "sample_rate": 100,
+      "reporting_period": 1,
+      "enabled_layers": {
+        "backend": true,
+        "router": true
+      },
+      "exporters": {
+        "jaeger": {
+          "endpoint": "http://jaeger:14268/api/traces",
+          "serviceName": "krakend"
+        }
+      }
+    },
+    "auth/api-keys": {
+      "keys": [
+        {
+          "key": "4d2c61e1-34c4-e96c-9456-15bd983c5019",
+          "roles": [
+            "role1",
+            "role2"
+          ],
+          "@description": "ACME Inc."
+        },
+        {
+          "key": "58427514-be32-0b52-b7c6-d01fada30497",
+          "roles": [
+            "admin",
+            "user"
+          ],
+          "@description": "Administrators Inc."
+        }
+      ]
+    }
+}
