@@ -34,7 +34,6 @@ window.addEventListener('load', function() {
   var pingPrivate = document.getElementById('btn-ping-private');
 
   var callPrivateMessage = document.getElementById('call-private-message');
-  var pingMessage = document.getElementById('ping-message');
 
   pingPublic.addEventListener('click', function() {
     callAPI('/public', false);
@@ -86,7 +85,6 @@ window.addEventListener('load', function() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-    pingMessage.style.display = 'none';
     displayButtons();
   }
 
@@ -114,8 +112,8 @@ window.addEventListener('load', function() {
       profileViewBtn.style.display = 'none';
       profileView.style.display = 'none';
       pingView.style.display = 'none';
-      pingViewBtn.style.display = 'none';
-      pingPrivate.style.display = 'none';
+      pingViewBtn.style.display = 'inline-block';
+      pingPrivate.style.display = 'inline-block';
       callPrivateMessage.style.display = 'block';
       loginStatus.innerHTML = 'You are not logged in! Please log in to continue.';
     }

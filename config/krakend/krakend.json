@@ -209,6 +209,15 @@
       ]
     },
     {
+      "@comment": "Feature: Basic endpoint without authorization",
+      "endpoint": "/public",
+      "backend": [
+        {
+          "url_pattern": "/hotels/1.json"
+        }
+      ]
+    },
+    {
       "@comment": "Feature: Authorization based on JWT (using Auth0)",
       "endpoint": "/private/auth0",
       "backend": [
