@@ -1,9 +1,11 @@
 {
   "$id": "https://www.krakend.io/schema/v3.json",
   "version": 3,
+  "name": "KrakenD Enterprise API Gateway",
+  "port": 8080,
+  "host": ["http://fake_api:8080"],
   "timeout": "3000ms",
   "cache_ttl": "300s",
-  "host": [ "http://fake_api:8080" ],
   "endpoints": [
     {
       "@comment": "Feature: Aggregation & Transformation",
@@ -209,7 +211,7 @@
       ]
     },
     {
-      "@comment": "Feature: Basic endpoint without authorization",
+      "@comment": "Feature: A public endpoint that requires no authentication",
       "endpoint": "/public",
       "backend": [
         {
@@ -342,11 +344,11 @@
   "extra_config": {
     "telemetry/metrics": {
       "collection_time": "30s",
-      "listen_address":":8090"
+      "listen_address": ":8090"
     },
-    "telemetry/influx":{
-      "address":"http://influxdb:8086",
-      "ttl":"25s",
+    "telemetry/influx": {
+      "address": "http://influxdb:8086",
+      "ttl": "25s",
       "buffer_size": 100,
       "username": "krakend-dev",
       "password": "pas5w0rd"
@@ -372,9 +374,9 @@
       }
     },
     "security/cors": {
-      "allow_origins": [ "http://localhost:8080", "http://localhost:3000", "http://192.168.99.100:3000" ],
-      "allow_methods": [ "POST", "GET" ],
-      "allow_headers": ["Origin","Authorization","Content-Type"],
+      "allow_origins": ["*"],
+      "allow_methods": ["POST", "GET"],
+      "allow_headers": ["Origin", "Authorization", "Content-Type"],
       "expose_headers": ["Content-Length"],
       "max_age": "12h"
     },

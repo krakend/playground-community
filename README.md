@@ -2,21 +2,23 @@
 
 KrakenD Playground
 ====
-The KrakenD Playground is a demonstration environment that puts together the necessary pieces to get you started with our API Gateway, using an example web application.
+The KrakenD Enterprise Playground is a demonstration environment that puts together the necessary pieces to get you started with our API Gateway, using example use-cases.
 
 As KrakenD is an API gateway, we have added surrounding services:
 
 - Internal and third-party services that feed the gateway
 - Authentication/authorization examples, including JWT token-based authentication with Auth0 integration, a JWT token revoker, API-Key-based authentication, and basic authentication.
-- Integrations with Grafana+Influx (metrics), ELK (log storing and visualization), and Jaeger (tracing).
+- Integrations with Grafana+Influx (metrics), Jaeger (tracing) and RabbitMQ (for async agents).
 
-![KrakenD Docker compose](https://github.com/devopsfaith/krakend-playground/blob/master/composer-env.png?raw=true)
+![KrakenD Docker compose](composer-env.png)
 
 ## Services
-The docker-compose starts the following services:
+The docker-compose.yml includes the following services:
 
 ### The API Gateway!
 On port `8080` you have an instance of KrakenD Community Edition with several endpoints. Its configuration is available at `config/krakend/krakend.json`, including descriptive `@comments` for each endpoint.
+
+It runs in [http://localhost:8000](http://localhost:8000)
 
 ### Fake API backend
 On port `8000` you have a simple API that provides raw data to the gateway. You can add or remove data by adding XML, JSON, or RSS files in the `data` folder.
@@ -53,8 +55,7 @@ A simple implementation of a JWT revoker using the KrakenD remote [bloomfilter c
 
 More information about JWT revoking is available at https://www.krakend.io/docs/authorization/revoking-tokens/
 
-
-Runs on [http://localhost:9000](http://localhost:9000)
+It runs on [http://localhost:9000](http://localhost:9000)
 
 ## Start the service
 
@@ -65,8 +66,7 @@ Create a new SPA application in [Auth0](https://manage.auth0.com/) and fill the 
     var AUTH0_DOMAIN='AUTH0_DOMAIN';
     var AUTH0_AUDIENCE = 'AUTH0_AUDIENCE';
 
-This must be done before starting the docker-compose.
-If you have started docker-compose before setting these variables, you need to build the image again with `docker-compose build web`.
+**You must do this before starting the docker-compose.** If you have started docker-compose before setting these variables, you need to build the image again with `docker compose build web`.
 
 ### Running the playground
 
@@ -86,7 +86,7 @@ To shut down the complete stack, removing all the volumes
 ```
 
 ## Play!
-Fire up your browser, curl, postman, httpie or anything else you like to interact with any of the published services.
+Fire up your browser, curl, postman, httpie, or anything else you like to interact with any of the published services.
 
 - Fake API: [http://localhost:8000](http://localhost:8000)
 - KrakenD API Gateway: [http://localhost:8080](http://localhost:8080)
@@ -94,6 +94,8 @@ Fire up your browser, curl, postman, httpie or anything else you like to interac
 - Grafana (metrics): [http://localhost:4000](http://localhost:4000)
 - Sample SPA for auth: [http://localhost:3000](http://localhost:3000)
 - JWT revoker: [http://localhost:9000](http://localhost:9000)
+
+When you change the `krakend.json` the changes are applied automatically.
 
 | 💡 Bonus track - Flexible configuration |
 | --- |
@@ -103,6 +105,7 @@ Fire up your browser, curl, postman, httpie or anything else you like to interac
 To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD Designer](https://designer.krakend.io/)** and downloading the edited file. Then, to reflect the changes, restart with `make restart`.
 
 To change the data in the static server (simulating your backend API), edit, add or delete files in the **`data/`** folder.
+
 The following endpoints are worth noticing:
 
 - `/private/auth0`: Protects and endpoint validating JWT tokens issued by Auth0
@@ -111,12 +114,20 @@ The following endpoints are worth noticing:
 - `/public`: Simple aggregation of two public API calls from Bitbucket and Github with some field selection.
 - `/shop`: Public endpoint aggregating data from the internal backend
 
+You will find more examples with comments in `config/krakend/krakend.json`
+
 ## Contribute!
 Everyone can get started with KrakenD at this repository.
 
 Try it out! If it doesn't help you, or you think you can add additional endpoints or middleware integrations, please open a pull request! (We may be too used to KrakenD and don't recognize what a starter demo should include.)
 
 Thanks!
+
+---
+
+If you have any questions or doubts, you can find our support resources at [https://www.krakend.io/support/](https://www.krakend.io/support/)
+
+**Interested in a demo or a trial license of KrakenD Enterprise?** [Write us »](https://www.krakend.io/enterprise/#contact-sales)
 
 ---
 
