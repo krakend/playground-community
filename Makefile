@@ -1,4 +1,4 @@
-.PHONY: start stop restart logs compile-flexible-config
+.PHONY: start stop restart logs compile-flexible-config elastic
 
 start:
 	docker-compose up -d
@@ -22,3 +22,6 @@ compile-flexible-config:
         -e FC_OUT=/etc/krakend/krakend-flexible-config.compiled.json \
         devopsfaith/krakend \
         check -c krakend-flexible-config.tmpl
+
+elastic:
+	curl -X POST "localhost:5601/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@config/elastic/dashboard.ndjson -H "kbn-xsrf: true"
