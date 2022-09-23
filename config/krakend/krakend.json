@@ -1,5 +1,5 @@
 {
-  "$id": "https://www.krakend.io/schema/v3.json",
+  "$schema": "https://www.krakend.io/schema/v3.json",
   "version": 3,
   "name": "KrakenD Enterprise API Gateway",
   "port": 8080,
