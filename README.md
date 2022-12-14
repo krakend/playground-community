@@ -12,6 +12,11 @@ As KrakenD is an API gateway, we have added surrounding services:
 
 ![KrakenD Docker compose](assets/composer-env.png)
 
+## Demo video
+Click to play on Youtube (with subtitles)
+
+<a href="https://youtu.be/VtXXZRO84t8"><img src="https://i.ytimg.com/vi/VtXXZRO84t8/maxresdefault.jpg" width="600" heigth="600"></a>
+
 ## Services
 The docker-compose.yml includes the following services:
 
