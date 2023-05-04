@@ -35,7 +35,7 @@ KrakenD can export telemetry to several services; this demonstration has a few e
 
 | Metrics | Logging | Tracing |
 | --- | --- | --- |
-| **Grafana** shows the metrics stored by KrakenD on InfluxDB| **Kibana** shows the logs registered by Logstash and persisted in Elasticsearch | **Jaeger** shows the traces of the activity between the client and your end services, including times of hops.|
+| **Grafana** shows the metrics stored by KrakenD on InfluxDB (credentials: admin/admin)| **Kibana** shows the logs registered by Logstash and persisted in Elasticsearch | **Jaeger** shows the traces of the activity between the client and your end services, including times of hops.|
 | URL: [http://localhost:4000](http://localhost:4000)| URL: [http://localhost:5601](http://localhost:5601) | URL: [http://localhost:16686](http://localhost:16686) |
 |![grafana screenshot](assets/grafana-screenshot.png)|![Kibana screenshot](assets/kibana-screenshot.png)|![jaeger screenshot](assets/jaeger-screenshot.png)|
 
@@ -58,11 +58,6 @@ Visit [http://localhost:3000](http://localhost:3000)
 A RabbitMQ instance is ready to accept AMQP messages to be delivered to the gateway.
 
 You can insert messages in the `krakend` queue at [http://localhost:15672/#/queues/%2F/krakend](http://localhost:15672/#/queues/%2F/krakend) (credentials: `guest`/`guest`) and see how the async agent picks them and delivers them.
-
-### Metrics
-A Jaeger dashboard shows the traces of the activity you generate. Runs on [http://localhost:16686](http://localhost:16686)
-
-A Grafana dashboard shows the metrics of the activity you generate. Runs on [http://localhost:3003](http://localhost:3003) (credentials: admin/admin)
 
 ### The JWT revoker
 A simple implementation of a JWT revoker using the KrakenD remote [bloomfilter client](https://github.com/krakendio/bloomfilter).
