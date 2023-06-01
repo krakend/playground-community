@@ -66,9 +66,9 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-    image: jaxgeller/lwan
+    image: ghcr.io/lpereira/lwan:latest
     volumes:
-      - ./data:/lwan/wwwroot
+      - ./data:/wwwroot
     ports:
       - "8000:8080"
   web:
