@@ -8,7 +8,7 @@ As KrakenD is an API gateway, we have added surrounding services:
 
 - Internal and third-party services that feed the gateway
 - Authentication/authorization examples, including JWT token-based authentication with Auth0 integration, a JWT token revoker, API-Key-based authentication, and basic authentication.
-- Integrations with Grafana+Influx (metrics), Jaeger (tracing) and RabbitMQ (for async agents).
+- Integrations with Grafana+Influx (metrics), ELK (log storing and visualization), Jaeger (tracing), and RabbitMQ (for async agents).
 
 ![KrakenD Docker compose](assets/composer-env.png)
 
@@ -123,15 +123,16 @@ To change the data in the static server (simulating your backend API), edit, add
 
 The following endpoints are worth noticing:
 
-| Feature                                       | Endpoint                                                        | Description                                                                                                                                                                      |
-|-----------------------------------------------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Simple request                                | [`/public`](http://localhost:8080/public)                       | A simple request calling an internal service and returning a JSON response                                                                                                       |
-| Data aggregation and manipulation             | [`/git/{user}`](http://localhost:8080/git/krakendio)            | Aggregating multiple calls concurrently and manipulating some data from GitHub API                                                                                               |
-| Caching backend responses                     | [`/market/cached`](http://localhost:8080/market/cached)         | Caching a backend response (based on cache headers provided by the backend)                                                                                                      |
-| Concurrent requests                           | [`/market/concurrent`](http://localhost:8080/market/concurrent) | Using [concurrent requests](https://www.krakend.io/docs/endpoints/concurrent-requests/) to gather data from Coingecko API                                                        |
-| Sequential calls                              | [`/sequential`](http://localhost:8080/sequential)               | Using [sequential proxy](https://www.krakend.io/docs/endpoints/sequential-proxy/) to build a pipe of sequential calls, using values from 1st call response into 2nd call request |
-| An aggregated requests with a failing backend | [`/fail`](http://localhost:8080/fail)                           | An example on how the `X-KrakenD-complete` header works when a backend fails on an aggregated response                                                                           |
-| JWT based Authentication                      | [`/private/auth0`](http://localhost:8080/private/auth0)         | Protects and endpoint validating JWT tokens issued by Auth0                                                                                                                      |
+| Feature                                       | Endpoint                                                               | Description                                                                                                                                                                      |
+|-----------------------------------------------|------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Simple request                                | [`/public`](http://localhost:8080/public)                              | A simple request calling an internal service and returning a JSON response                                                                                                       |
+| Data aggregation and manipulation             | [`/git/{user}`](http://localhost:8080/git/krakendio)                   | Aggregating multiple calls concurrently and manipulating some data from GitHub API                                                                                               |
+| GraphQL to REST transformation                | [`/starwars_films/{movie_id}`](http://localhost:8080/starwars_films/1) | Transforming a GraphQL query into a regular REST API endpoint                                                                                                                    |
+| Caching backend responses                     | [`/market/cached`](http://localhost:8080/market/cached)                | Caching a backend response (based on cache headers provided by the backend)                                                                                                      |
+| Concurrent requests                           | [`/market/concurrent`](http://localhost:8080/market/concurrent)        | Using [concurrent requests](https://www.krakend.io/docs/endpoints/concurrent-requests/) to gather data from Coingecko API                                                        |
+| Sequential calls                              | [`/sequential`](http://localhost:8080/sequential)                      | Using [sequential proxy](https://www.krakend.io/docs/endpoints/sequential-proxy/) to build a pipe of sequential calls, using values from 1st call response into 2nd call request |
+| An aggregated requests with a failing backend | [`/fail`](http://localhost:8080/fail)                                  | An example on how the `X-KrakenD-complete` header works when a backend fails on an aggregated response                                                                           |
+| JWT based Authentication                      | [`/private/auth0`](http://localhost:8080/private/auth0)                | Protects and endpoint validating JWT tokens issued by Auth0                                                                                                                      |
 
 You will find more examples with comments in `config/krakend/krakend.json`
 

@@ -8,7 +8,7 @@
   "cache_ttl": "300s",
   "endpoints": [
     {
-      "@comment": "Feature: Aggregation & Transformation",
+      "@comment": "Feature: Aggregation + Basic transformation (filtering & mapping) + grouping",
       "endpoint": "/git/{user}",
       "backend": [
         {
@@ -143,6 +143,26 @@
           "extra_config": {
             "qos/http-cache": {
               "shared": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@comment": "Feature: GraphQL to REST",
+      "endpoint": "/starwars_films/{movie_id}",
+      "backend": [
+        {
+          "host": ["https://swapi-graphql.netlify.app/"],
+          "url_pattern": "/.netlify/functions/index",
+          "target": "data.film",
+          "extra_config": {
+            "backend/graphql": {
+              "type": "query",
+              "query": "query Query ($movie_id: ID!) {\nfilm (filmID: $movie_id) {\nid\nepisodeID\ntitle\ndirector\nreleaseDate\nspeciesConnection {\nspecies {\nname\nclassification\nhomeworld {\nname\n}\n}\n}\n}\n}",
+              "variables": {
+                "movie_id": "{movie_id}"
+              }
             }
           }
         }
@@ -303,16 +323,15 @@
               "an_object": {
                 "obj": "obj1"
               }
-            }
-          ,
+            },
             "strategy": "always"
           }
         }
       }
     }
   ],
-  "sequential_start":true,
-  "async_agent":[
+  "sequential_start": true,
+  "async_agent": [
     {
       "name": "async-agent-demo",
       "backend": [
@@ -328,15 +347,15 @@
       },
       "connection": {
         "max_retries": 10,
-        "backoff_strategy":"exponential-jitter"
+        "backoff_strategy": "exponential-jitter"
       },
       "extra_config": {
         "async/amqp": {
-          "name":           "krakend",
-          "host":           "amqp://guest:guest@rabbitmq:5672/",
-          "exchange":       "foo",
+          "name": "krakend",
+          "host": "amqp://guest:guest@rabbitmq:5672/",
+          "exchange": "foo",
           "prefetch_count": 40,
-          "auto_ack":       true
+          "auto_ack": true
         }
       }
     }
