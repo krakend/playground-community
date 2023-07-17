@@ -117,8 +117,6 @@ When you change the `krakend.json`, the changes are applied automatically.
 ## Editing the API Gateway endpoints
 To add or remove endpoints, edit the file `krakend/krakend.json`. The easiest way to do it is by **dragging this file to the [KrakenD Designer](https://designer.krakend.io/)** and downloading the edited file. If you move the downloaded file to `krakend/krakend.json` the server will apply the changes automatically.
 
-To change the data in the static server (simulating your backend API), edit, add or delete files in the **`data/`** folder.
-
 The following endpoints are worth noticing:
 
 | Feature                                       | Endpoint                                                               | Description                                                                                                                                                                      |
