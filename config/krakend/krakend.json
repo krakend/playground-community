@@ -410,6 +410,80 @@
       "TTL": 1500,
       "port": 1234,
       "token_keys": ["jti"]
+    },
+    "telemetry/opentelemetry": {
+        "service_name": "krakend_frontend_service",
+        "layers": {
+            "router": {
+                "disable_metrics": false,
+                "disable_traces": false,
+                "disable_propagation": false
+            },
+            "pipe": {
+                "disable_metrics": false,
+                "disable_traces": false
+            }, 
+            "backend": {
+                "metrics": {
+                    "disable_stage": false,
+                    "round_trip": true,
+                    "read_payload": true,
+                    "detailed_connection": true,
+                    "static_attributes": [
+                        {
+                            "key": "my_metric_attr",
+                            "value": "my_metric_val"
+                        }
+                    ]
+                },
+                "traces": {
+                    "disable_stage": false,
+                    "round_trip": true,
+                    "read_payload": true,
+                    "detailed_connection": true,
+                    "static_attributes": [
+                        {
+                            "key": "my_trace_attr",
+                            "value": "my_trace_val" 
+                        }
+                    ]
+                }
+            }
+        },
+        "exporters": [ 
+            {
+                "name": "local_prometheus",
+                "kind": "prometheus",
+                "config": {
+                    "port": 9090,
+                    "process_metrics": true,
+                    "go_metrics": true
+                }
+            },
+            {
+                "name": "local_jaeger",
+                "kind": "opentelemetry",
+                "config": {
+                    "host": "jaeger",
+                    "port": 4317,
+                    "use_http": false
+                }
+            }
+        ],
+        "instance": {
+            "metric_providers": [
+                "local_prometheus"
+            ],
+            "metric_reporting_period": 1,
+            "trace_providers": [
+                "local_jaeger"
+            ],
+            "trace_sample_rate": 1
+        },
+        "extra": {
+            "custom": "extra",
+            "future_expansion": true
+        }
     }
   }
 }
