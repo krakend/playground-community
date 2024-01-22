@@ -1,0 +1,31 @@
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 0
+
+clients:
+  - url: http://kotel_loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: "kotel_example"
+    pipeline_stages:
+      - match:
+          selector: '{app="kotel_app"}'
+          stages:
+          - json:
+              expressions:
+                level: level
+                method: method
+                path: path
+                file: file
+                msg: msg
+                timestamp: time
+          - labels:
+              level:
+              path:
+              method:
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        app: "kotel_ap"
+        __path__: "/var/log/tmp/*.log"

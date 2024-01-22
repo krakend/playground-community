@@ -413,15 +413,45 @@
     },
     "telemetry/opentelemetry": {
         "service_name": "krakend_frontend_service",
+        "metric_reporting_period": 1,
+        "trace_sample_rate": 1,
+        "exporters": { 
+            "prometheus": [
+                {
+                    "name": "local_prometheus",
+                    "port": 9090,
+                    "process_metrics": true,
+                    "go_metrics": true
+                }
+            ],
+            "otlp": [
+                {
+                    "name": "local_tempo",
+                    "host": "tempo",
+                    "port": 4317,
+                    "use_http": false,
+                    "disable_metrics": true
+                },
+                {
+                    "name": "local_jaeger",
+                    "host": "jaeger",
+                    "port": 4317,
+                    "use_http": false,
+                    "disable_metrics": true
+                }
+            ]
+        },
         "layers": {
-            "router": {
+            "global": {
                 "disable_metrics": false,
                 "disable_traces": false,
-                "disable_propagation": false
+                "disable_propagation": false,
+                "report_headers": true
             },
-            "pipe": {
+            "proxy": {
                 "disable_metrics": false,
-                "disable_traces": false
+                "disable_traces": false,
+                "report_headers": true
             }, 
             "backend": {
                 "metrics": {
@@ -446,43 +476,10 @@
                             "key": "my_trace_attr",
                             "value": "my_trace_val" 
                         }
-                    ]
+                    ],
+                    "report_headers": true
                 }
             }
-        },
-        "exporters": [ 
-            {
-                "name": "local_prometheus",
-                "kind": "prometheus",
-                "config": {
-                    "port": 9090,
-                    "process_metrics": true,
-                    "go_metrics": true
-                }
-            },
-            {
-                "name": "local_jaeger",
-                "kind": "opentelemetry",
-                "config": {
-                    "host": "jaeger",
-                    "port": 4317,
-                    "use_http": false
-                }
-            }
-        ],
-        "instance": {
-            "metric_providers": [
-                "local_prometheus"
-            ],
-            "metric_reporting_period": 1,
-            "trace_providers": [
-                "local_jaeger"
-            ],
-            "trace_sample_rate": 1
-        },
-        "extra": {
-            "custom": "extra",
-            "future_expansion": true
         }
     }
   }

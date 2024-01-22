@@ -1,3 +1,6 @@
+volumes:
+  vol_tempo:
+  vol_grafana:
 services:
   krakend_ce:
     # The :watch image restarts the service automatically when the configuration files change.
@@ -16,10 +19,11 @@ services:
       - fake_api
       - jaeger
   grafana:
-    image: grafana/grafana:9.1.2
+    image: grafana/grafana:latest
     ports:
       - "4000:3000"
     volumes:
+      - "vol_grafana:/var/lib/grafana"
       - "./config/grafana/datasources/all.yml:/etc/grafana/provisioning/datasources/all.yml"
       - "./config/grafana/dashboards/all.yml:/etc/grafana/provisioning/dashboards/all.yml"
       - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
@@ -45,6 +49,25 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "4317:4317"
+  loki:
+    image: grafana/loki:latest
+    domainname: loki
+    healthcheck:
+      test: [CMD, wget, --spicer, -S, http://localhost:3100/ready]
+    ports:
+      - "53100:3100"
+  tempo:
+    image: grafana/tempo:latest
+    domainname: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - "./config/tempo/tempo.yaml:/etc/tempo.yaml"
+      - "vol_tempo:/tmp/tempo"
+    ports:
+      - "3200:3200"     # tempo
+      - "9095:9095"     # tempo grpc
+      - "54317:4317"     # otlp grpc
+      - "54318:4318"     # otlp http
   elasticsearch:
     image: elasticsearch:8.4.1
     environment:
@@ -75,11 +98,7 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-<<<<<<< HEAD
-    image: busybox:latest
-=======
     image: ghcr.io/lpereira/lwan:master
->>>>>>> 2f7dd89 (fix environment memory issues and add krakend-otel config)
     volumes:
       - ./data:/var/www/
     ports:
