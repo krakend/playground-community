@@ -410,6 +410,77 @@
       "TTL": 1500,
       "port": 1234,
       "token_keys": ["jti"]
+    },
+    "telemetry/opentelemetry": {
+        "service_name": "krakend_frontend_service",
+        "metric_reporting_period": 1,
+        "trace_sample_rate": 1,
+        "exporters": { 
+            "prometheus": [
+                {
+                    "name": "local_prometheus",
+                    "port": 9090,
+                    "process_metrics": true,
+                    "go_metrics": true
+                }
+            ],
+            "otlp": [
+                {
+                    "name": "local_tempo",
+                    "host": "tempo",
+                    "port": 4317,
+                    "use_http": false,
+                    "disable_metrics": true
+                },
+                {
+                    "name": "local_jaeger",
+                    "host": "jaeger",
+                    "port": 4317,
+                    "use_http": false,
+                    "disable_metrics": true
+                }
+            ]
+        },
+        "layers": {
+            "global": {
+                "disable_metrics": false,
+                "disable_traces": false,
+                "disable_propagation": false,
+                "report_headers": true
+            },
+            "proxy": {
+                "disable_metrics": false,
+                "disable_traces": false,
+                "report_headers": true
+            }, 
+            "backend": {
+                "metrics": {
+                    "disable_stage": false,
+                    "round_trip": true,
+                    "read_payload": true,
+                    "detailed_connection": true,
+                    "static_attributes": [
+                        {
+                            "key": "my_metric_attr",
+                            "value": "my_metric_val"
+                        }
+                    ]
+                },
+                "traces": {
+                    "disable_stage": false,
+                    "round_trip": true,
+                    "read_payload": true,
+                    "detailed_connection": true,
+                    "static_attributes": [
+                        {
+                            "key": "my_trace_attr",
+                            "value": "my_trace_val" 
+                        }
+                    ],
+                    "report_headers": true
+                }
+            }
+        }
     }
   }
 }

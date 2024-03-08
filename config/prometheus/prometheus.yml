@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  external_labels:
+    monitor: kotel_monitor
+
+scrape_configs:
+  - job_name: krakend_ce_local
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - '192.168.1.12:59091'
+        - '192.168.1.12:59092'
+        - '192.168.1.12:59093'
+        labels:
+          app: krakend_ce_local_app
+  - job_name: krakend_ce_docker
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - 'krakend_ce:9090'
+        labels:
+          app: krakend_ce_docker_app

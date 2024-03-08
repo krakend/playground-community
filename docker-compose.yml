@@ -1,24 +1,30 @@
 version: "3"
+volumes:
+  vol_tempo:
+  vol_grafana:
 services:
   krakend_ce:
     # The :watch image restarts the service automatically when the configuration files change.
     # Do not use this image in production, it's meant to speed up your testing and development.
-    image: devopsfaith/krakend:watch
+    # image: devopsfaith/krakend:watch
+    image: devopsfaith/krakend:2.5.0-dhontecillas
     volumes:
       - ./config/krakend:/etc/krakend
     ports:
       - "1234:1234"
       - "8080:8080"
       - "8090:8090"
+      - "9090:9090"
     command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
     depends_on:
       - fake_api
       - jaeger
   grafana:
-    image: grafana/grafana:9.1.2
+    image: grafana/grafana:latest
     ports:
       - "4000:3000"
     volumes:
+      - "vol_grafana:/var/lib/grafana"
       - "./config/grafana/datasources/all.yml:/etc/grafana/provisioning/datasources/all.yml"
       - "./config/grafana/dashboards/all.yml:/etc/grafana/provisioning/dashboards/all.yml"
       - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
@@ -32,11 +38,37 @@ services:
       - "INFLUXDB_ADMIN_PASSWORD=supersecretpassword"
     ports:
       - "8086:8086"
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "59090:9090"
+    volumes:
+      - "./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
   jaeger:
     image: jaegertracing/all-in-one:1
     ports:
       - "16686:16686"
       - "14268:14268"
+      - "4317:4317"
+  loki:
+    image: grafana/loki:latest
+    domainname: loki
+    healthcheck:
+      test: [CMD, wget, --spicer, -S, http://localhost:3100/ready]
+    ports:
+      - "53100:3100"
+  tempo:
+    image: grafana/tempo:latest
+    domainname: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - "./config/tempo/tempo.yaml:/etc/tempo.yaml"
+      - "vol_tempo:/tmp/tempo"
+    ports:
+      - "3200:3200"     # tempo
+      - "9095:9095"     # tempo grpc
+      - "54317:4317"     # otlp grpc
+      - "54318:4318"     # otlp http
   elasticsearch:
     image: elasticsearch:8.4.1
     environment:
@@ -44,6 +76,7 @@ services:
       - "xpack.security.enabled=false"
       - "xpack.security.transport.ssl.enabled=false"
       - "xpack.security.http.ssl.enabled=false"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ports:
       - "19200:9200"
       - "9300:9300"
@@ -66,7 +99,7 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-    image: ghcr.io/lpereira/lwan:latest
+    image: ghcr.io/lpereira/lwan:master
     volumes:
       - ./data:/wwwroot
     ports:
