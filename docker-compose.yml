@@ -44,6 +44,7 @@ services:
       - "xpack.security.enabled=false"
       - "xpack.security.transport.ssl.enabled=false"
       - "xpack.security.http.ssl.enabled=false"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ports:
       - "19200:9200"
       - "9300:9300"
@@ -66,7 +67,8 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-    image: ghcr.io/lpereira/lwan:latest
+    build:
+      context: images/http-server
     volumes:
       - ./data:/wwwroot
     ports:
