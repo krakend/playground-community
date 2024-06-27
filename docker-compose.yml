@@ -1,4 +1,3 @@
-version: "3"
 services:
   krakend_ce:
     # The :watch image restarts the service automatically when the configuration files change.
@@ -67,12 +66,12 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-    build:
-      context: images/http-server
+    image: busybox:latest
     volumes:
-      - ./data:/wwwroot
+      - ./data:/var/www/
     ports:
-      - "8000:8080"
+      - "8000:80"
+    command: httpd -f -h /var/www/
   web:
     build:
       context: images/spa-auth-web
