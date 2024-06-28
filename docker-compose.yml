@@ -1,4 +1,3 @@
-version: "3"
 services:
   krakend_ce:
     # The :watch image restarts the service automatically when the configuration files change.
@@ -44,6 +43,7 @@ services:
       - "xpack.security.enabled=false"
       - "xpack.security.transport.ssl.enabled=false"
       - "xpack.security.http.ssl.enabled=false"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ports:
       - "19200:9200"
       - "9300:9300"
@@ -66,11 +66,12 @@ services:
     ports:
       - "15672:15672"
   fake_api:
-    image: ghcr.io/lpereira/lwan:latest
+    image: busybox:latest
     volumes:
-      - ./data:/wwwroot
+      - ./data:/var/www/
     ports:
-      - "8000:8080"
+      - "8000:80"
+    command: httpd -f -h /var/www/
   web:
     build:
       context: images/spa-auth-web
