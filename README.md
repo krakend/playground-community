@@ -21,7 +21,7 @@ Click to play on Youtube (with subtitles)
 The docker-compose.yml includes the following services:
 
 ### The API Gateway!
-On port `8080`, you have an instance of KrakenD Enterprise Edition with several endpoints. Its configuration is available at `config/krakend/krakend.json`, including descriptive `@comments` for each endpoint.
+On port `8080`, you have an instance of KrakenD Community Edition with several endpoints. Its configuration is available at `config/krakend/krakend.json`, including descriptive `@comments` for each endpoint.
 
 ### Fake API backend (Upstream)
 On port `8000`, you have a simple fake API that provides raw data to the gateway. You can add or remove data by adding XML, JSON, or RSS files in the `data` folder.
