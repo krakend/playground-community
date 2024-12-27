@@ -104,6 +104,7 @@ Fire up your browser, curl, postman, httpie, or anything else you like to intera
 - Grafana (metrics): [http://localhost:4000](http://localhost:4000)
 - Sample SPA for auth: [http://localhost:3000](http://localhost:3000)
 - JWT revoker: [http://localhost:9000](http://localhost:9000)
+- Keycloak (IdP): [http://localhost:9100](http://localhost:9100)
 
 When you change the `krakend.json`, the changes are applied automatically.
 
