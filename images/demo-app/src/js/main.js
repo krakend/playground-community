@@ -100,6 +100,7 @@ window.addEventListener('DOMContentLoaded', async function () {
         hide(notLoggedInMenu)
         hide(notLoggedInAlert)
 
+        privateCallBtn.classList.remove('disabled')
         const info = await keycloak.loadUserInfo()
         this.document.getElementById('__menu-profile-username').innerHTML = info.name
         const table = this.document.querySelector('#__section-profile > * > table > tbody')
