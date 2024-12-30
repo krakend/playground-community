@@ -23,6 +23,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     const loggedInMenu = this.document.getElementById('__menu-logged-in')
     const notLoggedInMenu = this.document.getElementById('__menu-not-logged-in')
     const loginBtn = this.document.getElementById('__menu-login')
+    const loginLnk = this.document.getElementById('__section-login')
     const logoutBtn = this.document.getElementById('__menu-logout')
     const homeBtn = this.document.getElementById('__menu-home')
     const profileBtn = this.document.getElementById('__menu-profile')
@@ -31,7 +32,12 @@ window.addEventListener('DOMContentLoaded', async function () {
     const callResponseSection = this.document.getElementById('__call-response')
     const pingSection = this.document.getElementById('__section-ping')
     const profileSection = this.document.getElementById('__section-profile')
+    const lockclosedIcon = this.document.getElementById('__icon-lock-closed')
+    const lockopenedIcon = this.document.getElementById('__icon-lock-opened')
     loginBtn.addEventListener('click', async () => {
+        await keycloak.login()
+    })
+    loginLnk.addEventListener('click', async () => {
         await keycloak.login()
     })
     logoutBtn.addEventListener('click', async () => {
@@ -44,6 +50,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     profileBtn.addEventListener('click', () => {
         show(profileSection)
         hide(pingSection)
+        Prism.highlightAll();
     })
     publicCallBtn.addEventListener('click', async () => {
         const responseBlock = callResponseSection.querySelector('pre > code')
@@ -65,6 +72,7 @@ window.addEventListener('DOMContentLoaded', async function () {
         }
 
         show(callResponseSection)
+        Prism.highlightAll();
     })
     privateCallBtn.addEventListener('click', async () => {
         const responseBlock = callResponseSection.querySelector('pre > code')
@@ -91,6 +99,7 @@ window.addEventListener('DOMContentLoaded', async function () {
         }
 
         show(callResponseSection)
+        Prism.highlightAll();
     })
 
     if (keycloak.authenticated) {
@@ -101,9 +110,15 @@ window.addEventListener('DOMContentLoaded', async function () {
         hide(notLoggedInAlert)
 
         privateCallBtn.classList.remove('disabled')
+        privateCallBtn.classList.remove('bg-gray-300')
+        privateCallBtn.classList.remove('text-gray-600')
+        privateCallBtn.classList.add('bg-blue-500')
+        privateCallBtn.classList.add('text-white')
+        lockclosedIcon.classList.add('hidden')
+        lockopenedIcon.classList.remove('hidden')
         const info = await keycloak.loadUserInfo()
         this.document.getElementById('__menu-profile-username').innerHTML = info.name
-        const table = this.document.querySelector('#__section-profile > * > table > tbody')
+        const table = this.document.querySelector('#__section-profile > table > tbody')
 
         const tableMapping = { sub: "ID", email: "Email", name: "Name", preferred_username: "Username" }
         for (const [k, v] of Object.entries(tableMapping)) {
@@ -127,13 +142,13 @@ window.addEventListener('DOMContentLoaded', async function () {
 })
 
 function hide(el) {
-    if (!el.classList.contains('visually-hidden')) {
-        el.classList.add('visually-hidden')
+    if (!el.classList.contains('hidden')) {
+        el.classList.add('hidden')
     }
 }
 
 function show(el) {
-    if (el.classList.contains('visually-hidden')) {
-        el.classList.remove('visually-hidden')
+    if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden')
     }
 }
