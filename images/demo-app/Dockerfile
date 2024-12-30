@@ -2,10 +2,10 @@ FROM node:23-alpine
 
 WORKDIR /home/app
 
-ADD package.json /home/app
-ADD package-lock.json /home/app
-RUN npm ci
-ADD . /home/app
+ADD package.json .
+RUN npm install
+COPY . .
+RUN npm run build
 
 CMD ["npm", "run", "prod"]
 
