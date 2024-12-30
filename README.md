@@ -71,7 +71,7 @@ There are two pre-generated users with different roles:
 * `moderator / moderator`
 * `reader / reader`
 
-If you need to create new roles, users or configurations in the Keycloak instance, feel free to do so by browsing to the `krakend` realm administration panel: [http://localhost:9100](http://localhost:9100/admin/master/console/#/krakend/users) (credentials: `admin`/ `admin`)
+If you need to create new roles, users or configurations in the Keycloak instance, feel free to do so by browsing to the `krakend` realm administration panel: [http://localhost:8085](http://localhost:8085/admin/master/console/#/krakend/users) (credentials: `admin`/ `admin`)
 
 :warning: All the realm configuration changes done using the administration dashboard **won't be persisted** on container restart. For more information, check [here](./config/keycloak/README.md)
 
@@ -104,7 +104,7 @@ Fire up your browser, curl, postman, httpie, or anything else you like to intera
 - Grafana (metrics): [http://localhost:4000](http://localhost:4000)
 - Sample SPA for auth: [http://localhost:3000](http://localhost:3000)
 - JWT revoker: [http://localhost:9000](http://localhost:9000)
-- Keycloak (IdP): [http://localhost:9100](http://localhost:9100)
+- Keycloak (IdP): [http://localhost:8085](http://localhost:8085)
 
 When you change the `krakend.json`, the changes are applied automatically.
 

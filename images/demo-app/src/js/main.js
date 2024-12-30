@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     var apiUrl = document.location.protocol + '//' + document.location.hostname + ':8080';
 
     const keycloak = new Keycloak({
-        url: 'http://localhost:9100',
+        url: 'http://localhost:8085',
         realm: 'krakend',
         clientId: 'playground',
         flow: 'implicit'
