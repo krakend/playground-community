@@ -5,7 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Demo app</title>
-    <link rel="stylesheet" href="./scss/styles.scss">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
     <script type="module" src="./js/main.js"></script>
     <link rel=icon type=image/png href=https://www.krakend.io/favicon/favicon-196x196.png sizes=196x196>
     <link rel=icon type=image/png href=https://www.krakend.io/favicon/favicon-96x96.png sizes=96x96>
@@ -14,127 +19,140 @@
     <link rel=icon type=image/png href=https://www.krakend.io/favicon/favicon-128.png sizes=128x128>
 </head>
 
-<body>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-            <path
-                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-        </symbol>
-        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
-            <path
-                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-        </symbol>
-        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-            <path
-                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-        </symbol>
-    </svg>
-    <div class="container py-4 px-3 mx-auto">
-        <header class="d-flex justify-content-between align-items-md-center border-bottom">
-            <h1 class="h4">
-                <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                    <svg width="50" height="50" version="1.0" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 300.000000 302.000000" preserveAspectRatio="xMidYMid meet">
-                        <g transform="translate(0.000000,302.000000) scale(0.100000,-0.100000)" fill="#000000"
-                            stroke="none">
-                            <path
-                                d="M1235 2751 c-256 -56 -458 -164 -641 -346 -163 -162 -270 -347 -330 -570 -35 -132 -45 -380 -20 -521 48 -277 175 -515 378 -710 176 -169 384 -278 631 -331 114 -25 380 -25 494 0 262 56 465 167 654 356 249 251 369 542 369 897 0 212 -37 370 -130 559 -169 341 -501 591 -892 670 -110 22 -405 20 -513 -4z m445 -95 c178 -27 346 -94 496 -198 114 -78 122 -96 24 -49 -219 104 -482 136 -712 87 -263 -57 -469 -241 -542 -486 -26 -84 -31 -240 -12 -330 25 -121 94 -248 180 -333 40 -40 98 -87 129 -106 213 -126 482 -127 688 -2 l64 39 8 -37 c5 -20 6 -66 2 -102 -12 -130 -55 -226 -144 -321 -157 -167 -409 -236 -726 -197 -287 35 -528 171 -664 374 -101 152 -155 414 -131 638 42 397 266 725 617 905 225 115 473 155 723 118z m215 -261 c197 -35 375 -127 520 -270 169 -166 223 -274 245 -493 36 -348 -101 -712 -359 -955 -164 -154 -382 -264 -599 -302 -108 -19 -296 -19 -404 0 -96 16 -233 62 -322 107 -60 30 -168 99 -164 104 2 1 37 -9 78 -22 210 -69 490 -80 695 -28 82 21 230 94 290 144 156 130 237 301 237 500 0 120 -22 212 -73 317 -171 346 -612 474 -937 272 -35 -21 -65 -39 -68 -39 -9 0 -4 161 7 212 19 94 84 213 152 281 61 61 159 121 241 147 124 40 316 50 461 25z m-332 -650 c99 -21 201 -77 277 -155 69 -70 127 -166 117 -193 -10 -26 -108 -86 -185 -113 -228 -79 -476 -4 -627 190 -22 29 -49 72 -60 95 l-19 44 29 23 c52 42 163 95 228 109 82 18 157 18 240 0z" />
-                            <path
-                                d="M665 2125 c-5 -2 -22 -6 -37 -9 -35 -8 -94 -59 -115 -100 -40 -77 -8 -193 68 -243 99 -65 224 -29 281 81 42 82 3 203 -80 244 -37 19 -98 33 -117 27z m58 -117 c53 -28 64 -92 22 -133 -65 -65 -173 9 -133 91 13 28 50 54 76 54 7 0 23 -5 35 -12z" />
-                            <path
-                                d="M602 1607 c-46 -14 -117 -80 -141 -130 -27 -56 -28 -156 -2 -212 42 -90 131 -147 230 -147 102 0 183 49 226 137 32 65 36 149 11 210 -22 52 -80 112 -131 136 -45 21 -139 24 -193 6z m138 -102 c62 -17 109 -101 95 -167 -9 -41 -59 -94 -101 -108 -48 -16 -98 -5 -139 31 -48 42 -62 97 -40 154 8 24 24 50 35 60 23 21 90 45 110 40 8 -2 26 -7 40 -10z" />
-                            <path
-                                d="M1036 1155 c-51 -18 -112 -79 -132 -132 -52 -135 59 -293 206 -293 70 0 147 43 184 103 58 94 43 200 -38 275 -65 60 -140 76 -220 47z m157 -135 c40 -45 38 -101 -7 -146 -28 -28 -42 -34 -76 -34 -89 0 -143 106 -89 174 28 36 55 47 104 41 29 -3 48 -12 68 -35z" />
-                            <path
-                                d="M1496 2295 c-76 -27 -126 -98 -126 -178 0 -83 39 -143 115 -178 55 -25 102 -24 161 6 63 32 96 80 102 150 6 70 -11 116 -58 159 -59 53 -123 67 -194 41z m119 -118 c39 -33 39 -91 1 -123 -83 -72 -190 43 -111 121 31 32 75 32 110 2z" />
-                            <path
-                                d="M2026 2176 c-141 -53 -207 -219 -140 -354 32 -64 83 -108 148 -127 63 -19 101 -19 157 0 62 21 115 68 146 128 61 122 11 277 -111 339 -52 26 -148 33 -200 14z m172 -125 c17 -12 38 -41 48 -66 14 -39 15 -52 5 -87 -32 -107 -164 -143 -240 -67 -71 71 -56 189 31 233 43 22 116 16 156 -13z" />
-                            <path
-                                d="M2319 1606 c-59 -21 -96 -53 -123 -108 -45 -90 -31 -184 37 -252 127 -127 346 -56 373 122 24 157 -138 291 -287 238z m148 -129 c17 -16 27 -40 30 -71 5 -42 3 -48 -30 -81 -75 -75 -187 -28 -187 81 0 28 8 44 35 71 33 33 39 35 81 30 31 -3 55 -13 71 -30z" />
-                        </g>
+<body class="bg-gray-900 text-gray-100">
+<header class="container flex justify-between items-center py-4">
+    <h1 class="text-xl font-bold">
+        <a href="/" class="flex items-center no-underline">
+            <img src=https://www.krakend.io/images/logo-krakend.svg width=157 height=31 alt="KrakenD API Gateway">
+            <span class="ml-3">Auth Demo App</span>
+        </a>
+    </h1>
+    <a href="https://github.com/krakend/playground-community" target="_blank" rel="noopener" class="text-blue-600 hover:underline">
+        Go to Playground
+        <svg class="inline align-bottom h-6 w-6" width="22" height="22" viewBox="0 0 24 24">
+            <path d="M12 0c6.628.0 12 5.508 12 12.304.0 5.434-3.434 10.045-8.2 11.673-.608.121-.824-.263-.824-.59.0-.406.014-1.73.014-3.377.0-1.147-.384-1.896-.814-2.278 2.672-.304 5.48-1.345 5.48-6.07.0-1.344-.466-2.441-1.236-3.303.125-.31.536-1.562-.118-3.257.0.0-1.005-.33-3.296 1.262A11.275 11.275.0 0012 5.95a11.25 11.25.0 00-3.004.414c-2.293-1.592-3.3-1.262-3.3-1.262-.652 1.695-.24 2.946-.117 3.257-.767.862-1.236 1.959-1.236 3.303.0 4.713 2.802 5.77 5.467 6.08-.343.307-.654.85-.762 1.645-.684.315-2.422.858-3.492-1.022.0.0-.635-1.182-1.84-1.269.0.0-1.17-.015-.081.748.0.0.786.378 1.332 1.8.0.0.704 2.196 4.043 1.452.006 1.028.016 1.998.016 2.29.0.326-.22.706-.82.592C3.439 22.352.0 17.74.0 12.304.0 5.508 5.374.0 12 0"
+                  fill="currentcolor" fill-rule="nonzero"></path>
+        </svg>
+    </a>
+</header>
+
+<nav class="bg-gradient-to-r from-violet-500 to-blue-500 py-2">
+    <div class="container mx-auto flex justify-between items-center">
+        <ul class="flex space-x-4">
+            <li><a href="/" id="__menu-home" class="text-white font-medium hover:underline">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline align-bottom h-6 w-6">
+                    <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                </svg>
+
+                Home
+            </a></li>
+        </ul>
+        <span class="text-white">
+            <span id="__menu-not-logged-in"><a id="__menu-login" class="hover:underline" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline align-bottom h-6 w-6">
+              <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+            </svg> Login
+            </a></span>
+            <span id="__menu-logged-in">Hi,
+                <a id="__menu-profile" href="#profile" class="hover:underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline align-bottom h-6 w-6">
+                      <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
                     </svg>
-                    <span class="ms-3">Auth demo app</span>
-                </a>
-            </h1>
-            <a href="https://github.com/krakend/playground-community" target="_blank" rel="noopener">Playground on
-                Github</a>
-        </header>
+                    <span id="__menu-profile-username">{{ username }}</span></a> <span class="text-blue-100">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <a id="__menu-logout" href="#" class="text-red-800 hover:underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="inline align-middle h-4 w-4">
+                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                    </svg>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#home" id="__menu-home">Home</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    <span id="__menu-not-logged-in"><a id="__menu-login" class="nav-link" href="#">Login</a></span>
-                    <span id="__menu-logged-in">Hi, <a id="__menu-profile" href="#profile"
-                            style="text-decoration: none;"><span id="__menu-profile-username">{{ username }}</span></a>
-                        | <a id="__menu-logout" href="#" style="text-decoration: none;">Logout</a></span>
-                </span>
-            </div>
-        </nav>
-
-        <div class="col-lg-12 px-0" id="__alert-not-logged-in">
-            <div class="alert alert-warning d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
-                    <use xlink:href="#exclamation-triangle-fill" />
-                </svg>
-                <div>
-                    You are not logged in! Please log to send authenticated requests to your server.
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12 px-0 visually-hidden" id="__alert-logged-in">
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
-                    <use xlink:href="#info-fill" />
-                </svg>
-                <div>
-                    You are logged in! You can now send authenticated requests to your server.
-                </div>
-            </div>
-        </div>
-
-        <div id="__section-ping" class="col-lg-12 px-0">
-            <h3>Make a Call to the Server</h3>
-            <div class="mb-3">
-                <p>
-                    Log in to call a private (secured) server endpoint.
-                </p>
-                <button id="__btn-ping-public" class="btn btn-primary">
-                    Call Public
-                </button>
-                <button id="__btn-ping-private" class="btn btn-primary disabled">
-                    Call Private
-                </button>
-            </div>
-            <div id="__call-response" class="visually-hidden">
-                <h4>Response</h4>
-                <pre><code></code></pre>
-            </div>
-        </div>
-
-        <div id="__section-profile" class="col-lg-12 px-0 visually-hidden">
-            <h3>Profile</h3>
-            <div class="mb-3">
-                <table class="table">
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <h5>Full profile</h5>
-            <pre><code></code></pre>
-        </div>
-
-        <hr class="mt-5 mb-4">
-
-        <p class="text-muted">Made with love by KrakenD team</p>
-        <p class="text-muted"><a target="_blank" href="https://www.krakend.io/">Website</a> | <a target="_blank"
-                href="https://www.krakend.io/docs/">Docs</a> | <a target="_blank"
-                href="https://github.com/krakend/playground-community">Playground community</a></p>
+                    Logout
+                </a></span>
+        </span>
     </div>
+</nav>
+
+<div class="container mx-auto py-4 px-3">
+
+
+    <div class="w-full" id="__alert-not-logged-in">
+        <div class="rounded-md bg-yellow-50 p-4 my-4">
+            <div class="flex">
+                <div class="shrink-0">
+                    <svg class="size-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700"><strong>You are not logged in!</strong> Please <a id="__section-login" href="#" class="underline">log in</a> to send authenticated requests to your server.</p>
+                    <p class="mt-4 text-sm text-yellow-700">The default credentials in the Playground's Keycloak are <em>moderator:moderator</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full hidden" id="__alert-logged-in">
+        <div class="rounded-md bg-blue-50 p-4 my-4">
+            <div class="flex">
+                <div class="shrink-0">
+                    <svg class="size-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3 flex-1 md:flex md:justify-between">
+                    <p class="text-sm text-blue-700">You are logged in! You can now send authenticated requests to your server.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="__section-ping" class="w-full">
+        <h3 class="text-lg font-semibold mb-3">Make a Call to the Server</h3>
+        <p class="mb-3">Log in to call a private (secured) server endpoint.</p>
+        <button id="__btn-ping-public" class="bg-gradient-to-r from-violet-500 to-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline align-bottom">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+
+            Call Public
+        </button>
+        <button id="__btn-ping-private" class="bg-gray-300 text-gray-600 py-2 px-4 rounded ml-2 disabled">
+            <svg id="__icon-lock-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline align-bottom">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+
+            <svg id="__icon-lock-opened" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline align-bottom hidden">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            Call Private
+        </button>
+
+        <div id="__call-response" class="w-full hidden">
+            <h4 class="text-lg font-semibold mb-3">Response</h4>
+            <pre class="bg-gray-800 text-white p-4 rounded"><code class="language-json"></code></pre>
+        </div>
+
+    </div>
+
+    <div id="__section-profile" class="w-full hidden">
+        <h3 class="text-lg font-semibold mb-3">Profile</h3>
+        <table class="w-full text-left border-collapse mb-4">
+            <tbody></tbody>
+        </table>
+        <h5 class="text-md font-semibold">Full profile</h5>
+        <pre class="bg-gray-800 text-white p-4 rounded"><code class="language-json"></code></pre>
+    </div>
+
+</div>
+<hr class="my-8 border-gray-300">
+
+<footer class="text-center text-gray-600">
+    <p>Made with <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500 inline align-bottom h-5 w-5">
+        <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+    </svg>
+        by KrakenD team</p>
+    <p>
+        <a href="https://www.krakend.io/" target="_blank" class="hover:underline">Website</a> | <a href="https://www.krakend.io/docs/" target="_blank" class="hover:underline">Docs</a> | <a href="https://github.com/krakend/playground-community" target="_blank" class="hover:underline">Playground community</a>
+    </p>
+</footer>
 </body>
 
 </html>
