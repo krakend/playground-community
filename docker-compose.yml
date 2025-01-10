@@ -93,6 +93,6 @@ services:
     volumes:
       - ./config/keycloak/realms:/opt/keycloak/data/import
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
     command: ["start", "--http-enabled=true", "--hostname-strict=false", "--import-realm", "--optimized"]
