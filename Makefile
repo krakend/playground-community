@@ -1,16 +1,16 @@
 .PHONY: start stop restart logs compile-flexible-config elastic
 
 start:
-	docker-compose up -d
+	docker compose build web && docker compose up -d
 
 stop:
-	docker-compose down --volumes
+	docker compose down --volumes
 
 restart:
-	docker-compose restart
+	docker compose restart
 
 logs:
-	docker-compose logs -f logstash
+	docker compose logs -f logstash
 
 compile-flexible-config:
 	docker run \
@@ -25,3 +25,10 @@ compile-flexible-config:
 
 elastic:
 	curl -X POST "localhost:5601/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@config/elastic/dashboard.ndjson -H "kbn-xsrf: true"
+
+save-keycloak-config:
+	docker compose exec keycloak sh -c "cp -rp /opt/keycloak/data/h2 /tmp; \
+        /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/import \
+        --realm krakend \
+        --users realm_file \
+        --db dev-file --db-url 'jdbc:h2:file:/tmp/h2/keycloakdb;NON_KEYWORDS=VALUE'"
