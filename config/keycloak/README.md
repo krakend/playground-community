@@ -5,10 +5,6 @@ All the new users, roles, configurations, clients... created or modified using K
 
 If you need to export the realm config for later usage, you can overwrite the `realms/` contents by spawning the following command (make sure the container is up and running):
 
-```
-docker compose exec keycloak sh -c "cp -rp /opt/keycloak/data/h2 /tmp; \
-    /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/import \
-    --realm krakend \
-    --users realm_file \
-    --db dev-file --db-url 'jdbc:h2:file:/tmp/h2/keycloakdb;NON_KEYWORDS=VALUE'"
+```shell
+    $ make save-keycloak-config
 ```
