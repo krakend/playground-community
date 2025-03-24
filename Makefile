@@ -1,16 +1,16 @@
 .PHONY: start stop restart logs compile-flexible-config elastic
 
 start:
-	docker-compose build web && docker-compose up -d
+	docker compose build web && docker compose up -d
 
 stop:
-	docker-compose down --volumes
+	docker compose down --volumes
 
 restart:
-	docker-compose restart
+	docker compose restart
 
 logs:
-	docker-compose logs -f logstash
+	docker compose logs -f logstash
 
 compile-flexible-config:
 	docker run \
