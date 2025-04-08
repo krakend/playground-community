@@ -21,6 +21,7 @@ services:
       - "./config/grafana/datasources/all.yml:/etc/grafana/provisioning/datasources/all.yml"
       - "./config/grafana/dashboards/all.yml:/etc/grafana/provisioning/dashboards/all.yml"
       - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
+      - "./data/jwk/symmetric.json:/opt/krakend/jwk-symmetric.json"
   influxdb:
     image: influxdb:1.8.10
     environment:

@@ -294,7 +294,7 @@
           "alg": "HS256",
           "kid": "sim2",
           "keys_to_sign": ["access_token", "refresh_token"],
-          "jwk_url": "http://fake_api/jwk/symmetric.json",
+          "jwk_local_path": "/opt/krakend/jwk-symmetric.json",
           "disable_jwk_security": true
         }
       }
