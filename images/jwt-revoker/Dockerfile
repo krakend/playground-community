@@ -4,7 +4,7 @@ RUN mkdir /app
 WORKDIR /app
 COPY . .
 
-RUN GOPROXY=https://goproxy.io go get -d -v ./...
+RUN GOPROXY=https://goproxy.io,direct go mod download
 RUN go build .
 
 EXPOSE 8080
