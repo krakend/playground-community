@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "prod": "serve -p 3000 dist/"
+    "prod": "vite preview --port 3000 --host"
   },
   "devDependencies": {
     "sass": "^1.83.0",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "keycloak-js": "^26.0.7",
-    "serve": "^14.2.6"
+    "keycloak-js": "^26.0.7"
   }
 }
